@@ -1,0 +1,31 @@
+/* Tailwind base layers */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base Styles ─────────────────────────────────────────── */
+body {
+  font-family: 'Inter', sans-serif;
+  scroll-behavior: smooth;
+  background-color: #f7f9fb;
+  color: #191c1e;
+}
+
+/* ─── Material Symbols icon sizing fix ────────────────────── */
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* ─── Glassmorphism card (used in Navbar) ─────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* ─── Smooth section transitions ──────────────────────────── */
+section {
+  scroll-margin-top: 64px; /* offset for fixed navbar height */
+}
