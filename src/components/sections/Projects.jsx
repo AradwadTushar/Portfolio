@@ -5,133 +5,101 @@ import ProjectCard from '../ui/ProjectCard.jsx'
 /**
  * Projects
  * ─────────────────────────────────────────────────────────────
- * Displays all projects from projects.js with two filter rows:
- *
- *   Row 1 — Category filters: All / Web / Mobile / AI / Desktop
- *   Row 2 — Tech tag filters: All / React / Node.js / Python / AI/ML / Electron
- *
- * Both filters work together — selecting a category AND a tag
- * shows only projects that match BOTH conditions.
- *
- * To add more category or tech options, update the constants below
- * and add the matching values in your projects.js data.
+ * Brutalist grid with two filter rows (Category + Tech).
+ * Both filters work together — AND logic.
+ * Keeps the same data contract as the original projects.js.
  */
 
-// Top-level category filters — matches the `category` field in projects.js
 const CATEGORIES = ['All', 'Web', 'Mobile', 'AI', 'Desktop']
-
-// Tech tag filters — matches values in the `tech` array in projects.js
-const TECH_TAGS = ['All', 'React', 'Node.js', 'Python', 'AI/ML', 'Electron']
+const TECH_TAGS   = ['All', 'React', 'Node.js', 'Python', 'AI/ML', 'Electron']
 
 export default function Projects() {
-  // Which category button is active (default: show all)
   const [activeCategory, setActiveCategory] = useState('All')
+  const [activeTech,     setActiveTech]     = useState('All')
 
-  // Which tech tag button is active (default: show all)
-  const [activeTech, setActiveTech] = useState('All')
-
-  /**
-   * filteredProjects
-   * Recalculates whenever the active filters change.
-   * useMemo prevents unnecessary re-renders.
-   */
   const filteredProjects = useMemo(() => {
-    return projects.filter((project) => {
-      // Check category match (skip check if "All" is selected)
-      const categoryMatch =
-        activeCategory === 'All' || project.category === activeCategory
-
-      // Check tech tag match (skip check if "All" is selected)
-      const techMatch =
-        activeTech === 'All' || project.tech.includes(activeTech)
-
-      return categoryMatch && techMatch
+    return projects.filter((p) => {
+      const catMatch  = activeCategory === 'All' || p.category === activeCategory
+      const techMatch = activeTech     === 'All' || p.tech.includes(activeTech)
+      return catMatch && techMatch
     })
   }, [activeCategory, activeTech])
 
   return (
-    <section id="projects" className="py-20 px-6 bg-surface-container-lowest">
-      <div className="max-w-container mx-auto">
+    <section id="projects" className="border-brutal-b" style={{ background: '#F5F0E8' }}>
 
-        {/* ── Section Header ──────────────────────────────────── */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
-          <div>
-            <h2 className="text-h2 text-on-surface mb-4">Featured Projects</h2>
-            <p className="text-on-surface-variant max-w-xl">
-              A selection of my most impactful work, from AI tools to desktop apps.
-            </p>
-          </div>
-        </div>
+      {/* Section header */}
+      <div className="flex flex-col md:flex-row md:items-baseline justify-between px-8 pt-16 pb-8 border-brutal-b gap-4">
+        <h2 className="font-display font-extrabold text-display-lg text-ink">
+          Selected work.
+        </h2>
+        <span className="font-mono text-label uppercase tracking-widest text-[#888]">
+          {filteredProjects.length} project{filteredProjects.length !== 1 ? 's' : ''}
+        </span>
+      </div>
 
-        {/* ── Filter Row 1: Categories ─────────────────────────── */}
-        <div className="mb-3">
-          <p className="text-label-sm text-on-surface-variant mb-2 uppercase tracking-widest">
+      {/* Filters */}
+      <div className="px-8 py-6 border-brutal-b flex flex-col gap-4">
+        {/* Category */}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="font-mono text-label uppercase tracking-widest text-[#888] mr-2 w-16">
             Category
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {CATEGORIES.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeCategory === cat
-                    ? 'bg-primary text-on-primary'           // active style
-                    : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high' // inactive
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+          </span>
+          {CATEGORIES.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setActiveCategory(cat)}
+              className={`filter-btn ${activeCategory === cat ? 'active' : ''}`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
 
-        {/* ── Filter Row 2: Tech Tags ──────────────────────────── */}
-        <div className="mb-12">
-          <p className="text-label-sm text-on-surface-variant mb-2 uppercase tracking-widest">
+        {/* Tech */}
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="font-mono text-label uppercase tracking-widest text-[#888] mr-2 w-16">
             Tech
-          </p>
-          <div className="flex flex-wrap gap-2">
-            {TECH_TAGS.map((tag) => (
-              <button
-                key={tag}
-                onClick={() => setActiveTech(tag)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                  activeTech === tag
-                    ? 'bg-secondary text-on-secondary'        // active style (purple for tech)
-                    : 'bg-surface-container text-on-surface-variant hover:bg-surface-container-high'
-                }`}
-              >
-                {tag}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* ── Project Grid ─────────────────────────────────────── */}
-        {filteredProjects.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {filteredProjects.map((project) => (
-              <ProjectCard key={project.id} project={project} />
-            ))}
-          </div>
-        ) : (
-          /* Empty state — shown when no projects match the filters */
-          <div className="flex flex-col items-center justify-center py-20 text-center">
-            <span className="material-symbols-outlined text-[48px] text-outline mb-4">
-              search_off
-            </span>
-            <p className="text-on-surface-variant text-body-md">
-              No projects match the selected filters.
-            </p>
+          </span>
+          {TECH_TAGS.map((tag) => (
+            <button
+              key={tag}
+              onClick={() => setActiveTech(tag)}
+              className={`filter-btn ${activeTech === tag ? 'active-secondary' : ''}`}
+            >
+              {tag}
+            </button>
+          ))}
+          {(activeCategory !== 'All' || activeTech !== 'All') && (
             <button
               onClick={() => { setActiveCategory('All'); setActiveTech('All') }}
-              className="mt-4 text-primary text-sm font-medium hover:underline"
+              className="font-mono text-label uppercase tracking-widest text-rust underline underline-offset-4 ml-2 bg-transparent border-none cursor-pointer"
             >
-              Clear filters
+              Clear
             </button>
-          </div>
-        )}
+          )}
+        </div>
       </div>
+
+      {/* Grid */}
+      {filteredProjects.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {filteredProjects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </div>
+      ) : (
+        <div className="flex flex-col items-center justify-center py-24 text-center px-8">
+          <p className="font-display font-bold text-display-md text-[#ccc] mb-4">∅</p>
+          <p className="font-mono text-body-sm text-[#888]">No projects match the filters.</p>
+          <button
+            onClick={() => { setActiveCategory('All'); setActiveTech('All') }}
+            className="btn-ghost mt-6 text-[0.65rem]"
+          >
+            Clear filters
+          </button>
+        </div>
+      )}
     </section>
   )
 }

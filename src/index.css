@@ -1,31 +1,349 @@
-/* Tailwind base layers */
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Syne:wght@400;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Base Styles ─────────────────────────────────────────── */
+/* ── Base ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
 body {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Space Mono', monospace;
+  background-color: #F5F0E8;
+  color: #0D0D0D;
   scroll-behavior: smooth;
-  background-color: #f7f9fb;
-  color: #191c1e;
+  overflow-x: hidden;
 }
 
-/* ─── Material Symbols icon sizing fix ────────────────────── */
-.material-symbols-outlined {
-  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-  display: inline-block;
-  vertical-align: middle;
+/* ── Typography helpers ───────────────────────────────────── */
+.font-display { font-family: 'Syne', sans-serif; }
+.font-mono    { font-family: 'Space Mono', monospace; }
+
+/* ── Brutal border system ─────────────────────────────────── */
+.border-brutal { border: 2px solid #0D0D0D; }
+.border-brutal-b { border-bottom: 2px solid #0D0D0D; }
+.border-brutal-t { border-top: 2px solid #0D0D0D; }
+.border-brutal-r { border-right: 2px solid #0D0D0D; }
+
+/* ── Buttons ──────────────────────────────────────────────── */
+.btn-ink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: #0D0D0D;
+  color: #CAFF00;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.85rem 1.8rem;
+  border: 2px solid #0D0D0D;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+  text-decoration: none;
+}
+.btn-ink:hover { background: #E84B2A; border-color: #E84B2A; color: #fff; }
+
+.btn-ghost {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: transparent;
+  color: #0D0D0D;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.85rem 1.8rem;
+  border: 2px solid #0D0D0D;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+  text-decoration: none;
+}
+.btn-ghost:hover { background: #0D0D0D; color: #CAFF00; }
+
+/* ── Stack pill ───────────────────────────────────────────── */
+.stack-pill {
+  border: 2px solid #0D0D0D;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.7rem;
+  background: transparent;
+  transition: background 0.15s;
+  cursor: default;
+  white-space: nowrap;
+}
+.stack-pill:hover  { background: #CAFF00; }
+.stack-pill.active { background: #0D0D0D; color: #CAFF00; }
+
+/* ── Marquee ──────────────────────────────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.marquee-track {
+  display: flex;
+  white-space: nowrap;
+  width: max-content;
+  animation: marquee 20s linear infinite;
+  gap: 3rem;
 }
 
-/* ─── Glassmorphism card (used in Navbar) ─────────────────── */
-.glass-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+/* ── Pulse dot ────────────────────────────────────────────── */
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.65); }
+}
+.pulse-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: #CAFF00;
+  animation: pulse-dot 2s ease-in-out infinite;
+  flex-shrink: 0;
 }
 
-/* ─── Smooth section transitions ──────────────────────────── */
-section {
-  scroll-margin-top: 64px; /* offset for fixed navbar height */
+/* ── Section scroll offset ────────────────────────────────── */
+section { scroll-margin-top: 58px; }
+
+/* ── Project card hover ───────────────────────────────────── */
+.project-card { transition: background 0.2s, color 0.2s; }
+.project-card:hover { background: #0D0D0D; color: #F5F0E8; }
+.project-card:hover .proj-desc  { color: #aaa; }
+.project-card:hover .proj-tag   { border-color: #444; color: #ccc; }
+.project-card:hover .proj-arrow { transform: translate(4px, -4px); }
+.proj-arrow { transition: transform 0.25s; }
+
+/* ── Filter buttons ───────────────────────────────────────── */
+.filter-btn {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 0.4rem 0.9rem;
+  border: 2px solid #0D0D0D;
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+}
+.filter-btn:hover   { background: #EDEAE0; }
+.filter-btn.active  { background: #0D0D0D; color: #CAFF00; }
+.filter-btn.active-secondary { background: #E84B2A; color: #fff; border-color: #E84B2A; }
+
+/* ── About timeline dot ───────────────────────────────────── */
+.timeline-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #E84B2A;
+  flex-shrink: 0;
+  margin-top: 5px;
+}
+
+/* ── Social link row ──────────────────────────────────────── */
+.social-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 0.9rem;
+  border-bottom: 1px solid #0D0D0D;
+  font-size: 0.8rem;
+  text-decoration: none;
+  color: #0D0D0D;
+  transition: color 0.2s;
+}
+.social-row:hover { color: #E84B2A; }
+
+/* ───────────────────────────── */
+/* Wireframe Sphere */
+/* ───────────────────────────── */
+
+.sphere-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.wireframe-sphere {
+  width: min(260px, 60vw);
+  height: min(260px, 60vw);
+  stroke: #ff5a36;
+  stroke-width: 1.2;
+
+  opacity: 0.8;
+
+  animation:
+    sphereRotate 7s steps(24) infinite,
+    sphereFlicker 0.2s infinite;
+}
+
+@media (max-width: 768px) {
+
+  .wireframe-sphere {
+  width: 160px;
+  height: 160px;
+}
+
+  .terminal-line {
+    font-size: 13px;
+  }
+
+  .scanlines {
+    opacity: 0.04;
+  }
+}
+
+/* Low FPS rotation */
+@keyframes sphereRotate {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Flicker */
+@keyframes sphereFlicker {
+  0% { opacity: 0.75; }
+  50% { opacity: 0.9; }
+  100% { opacity: 0.7; }
+}
+
+/* ───────────────────────────── */
+/* Terminal */
+/* ───────────────────────────── */
+
+.terminal-line {
+  opacity: 0;
+  animation: terminalAppear 0.3s forwards;
+}
+
+@keyframes terminalAppear {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.terminal-cursor {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ───────────────────────────── */
+/* CRT Scanlines */
+/* ───────────────────────────── */
+
+.scanlines {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: 0.08;
+
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.18) 3px
+  );
+}
+
+
+/* ───────────────────────────── */
+/* SYSTEM PANEL GLITCH */
+/* ───────────────────────────── */
+
+.system-panel {
+  isolation: isolate;
+  min-height: 320px;
+}
+
+.glitching {
+  animation: glitchCut 0.18s steps(2);
+}
+
+@keyframes glitchCut {
+
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+
+  20% {
+    transform: translateX(-8px);
+    opacity: 0.8;
+  }
+
+  40% {
+    transform: translateX(6px);
+    opacity: 0.6;
+  }
+
+  60% {
+    transform: translateX(-3px);
+    opacity: 0.9;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* ───────────────────────────── */
+/* NOISE TEXTURE */
+/* ───────────────────────────── */
+
+.noise {
+  position: absolute;
+  inset: 0;
+
+  opacity: 0.035;
+
+  pointer-events: none;
+
+  background-image:
+    radial-gradient(#000 0.5px, transparent 0.5px);
+
+  background-size: 4px 4px;
+
+  mix-blend-mode: multiply;
+}
+
+@media (max-width: 768px) {
+
+  .wireframe-sphere {
+    width: 160px;
+    height: 160px;
+  }
+
+  .terminal-line {
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .scanlines {
+    opacity: 0.04;
+  }
+
+  .system-panel {
+    min-height: 240px;
+  }
+
+  .sphere-wrapper {
+    align-items: center;
+    text-align: center;
+  }
 }

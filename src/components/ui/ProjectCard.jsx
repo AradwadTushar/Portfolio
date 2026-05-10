@@ -1,156 +1,108 @@
 /**
  * ProjectCard
  * ─────────────────────────────────────────────────────────────
- * Renders a single project. Supports two visual modes:
+ * Brutalist card — preserves full data contract from projects.js:
+ *   featured, caseStudyUrl, paperStatus, paperUrl, github, liveUrl
  *
- *   featured={true}  → Wide card spanning 2 columns, horizontal layout
- *   featured={false} → Standard vertical card (1 column)
+ * Featured card → spans 2 cols (lg:col-span-2), horizontal layout
+ * Regular card  → standard vertical card
  *
- * Props:
- *   project  - the project object from projects.js
- *
- * Special fields (featured cards only):
- *   caseStudyUrl  - Google Drive link → renders "Read Case Study" banner
- *   paperStatus   - "drafting" | "submitted" | "published" | null
- *                   → renders a research paper status badge
- *   paperUrl      - link to published paper (used when paperStatus = "published")
+ * All cards live inside the grid in Projects.jsx.
+ * Each card has a 2px ink border on right + bottom (grid handles gaps via borders).
  */
 
-// Maps tech tag names to their color classes for the colored badges
-const TECH_COLORS = {
-  "React":      "bg-primary/10 text-primary",
-  "Node.js":    "bg-tertiary/10 text-tertiary",
-  "Python":     "bg-secondary/10 text-secondary",
-  "AI/ML":      "bg-primary/10 text-primary",
-  "Electron":   "bg-tertiary/10 text-tertiary",
-  "OCR":        "bg-secondary/10 text-secondary",
-  "JavaScript": "bg-surface-container text-on-surface-variant",
-}
-
-// Maps paperStatus to a user-facing label and badge color style
-const PAPER_STATUS_STYLES = {
-  drafting:  { label: "Research Paper — Coming Soon",  classes: "bg-secondary/10 text-secondary border border-secondary/20" },
-  submitted: { label: "Research Paper — Under Review", classes: "bg-tertiary/10 text-tertiary border border-tertiary/20"   },
-  published: { label: "Research Paper — Published",    classes: "bg-primary/10 text-primary border border-primary/20"      },
-}
-
-// Returns the color class for a tech tag, falls back to neutral
-function getTechColor(tag) {
-  return TECH_COLORS[tag] || "bg-surface-container text-on-surface-variant"
+const PAPER_LABELS = {
+  drafting:  'Paper — Coming soon',
+  submitted: 'Paper — Under review',
+  published: 'Paper — Published',
 }
 
 export default function ProjectCard({ project }) {
   const {
-    title, description, tech, github, liveUrl, image, featured,
-    caseStudyUrl, paperStatus, paperUrl,
+    title, description, tech, github, liveUrl, image,
+    featured, caseStudyUrl, paperStatus, paperUrl,
   } = project
 
-  // ── Featured Card (wide, horizontal) ─────────────────────────
+  const paperLabel = PAPER_LABELS[paperStatus] || null
+
+  /* ── Featured card ─────────────────────────────────────── */
   if (featured) {
-    const paper = PAPER_STATUS_STYLES[paperStatus] || null
-
     return (
-      <div className="group lg:col-span-2 bg-white rounded-2xl border-2 border-primary/20 overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col md:flex-row">
+      <div className="project-card lg:col-span-2 border-brutal-b border-brutal-r flex flex-col md:flex-row">
 
-        {/* Project image — left half on desktop */}
-        <div className="relative overflow-hidden md:w-1/2 h-64 md:h-auto bg-slate-100">
+        {/* Image — left half */}
+        <div className="relative md:w-[45%] h-56 md:h-auto overflow-hidden border-brutal-b md:border-brutal-b-0 md:border-brutal-r bg-surface flex-shrink-0">
           <img
             src={image}
             alt={`${title} screenshot`}
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            className="w-full h-full object-cover"
             onError={(e) => { e.target.style.display = 'none' }}
           />
-          {/* Featured badge overlay */}
-          <div className="absolute top-4 left-4 px-3 py-1 bg-primary text-on-primary text-[10px] font-bold rounded-full shadow-lg">
-            ★ FEATURED
+          {/* Featured badge */}
+          <div className="absolute top-3 left-3 bg-ink text-acid font-mono text-[0.6rem] uppercase tracking-widest px-2 py-1">
+            ★ Featured
           </div>
         </div>
 
-        {/* Card content — right half on desktop */}
-        <div className="p-8 md:w-1/2 flex flex-col justify-center">
+        {/* Content — right half */}
+        <div className="flex flex-col justify-between p-8 flex-1">
+          <div>
+            {/* Tech tags */}
+            <div className="flex flex-wrap gap-2 mb-4">
+              {tech.map((tag) => (
+                <span key={tag} className="proj-tag font-mono text-[0.6rem] uppercase tracking-widest border border-current px-2 py-0.5">
+                  {tag}
+                </span>
+              ))}
+              {paperLabel && (
+                <span className="font-mono text-[0.6rem] uppercase tracking-widest border border-rust text-rust px-2 py-0.5">
+                  {paperLabel}
+                </span>
+              )}
+            </div>
 
-          {/* Tech tags */}
-          <div className="flex flex-wrap gap-2 mb-4">
-            {tech.map((tag) => (
-              <span key={tag} className={`px-2 py-1 text-[10px] font-bold rounded ${getTechColor(tag)}`}>
-                {tag.toUpperCase()}
-              </span>
-            ))}
-          </div>
+            {/* Title */}
+            <div className="flex items-start justify-between gap-2 mb-3">
+              <h3 className="font-display font-extrabold text-display-md">{title}</h3>
+              <span className="proj-arrow text-xl mt-1 flex-shrink-0">↗</span>
+            </div>
 
-          {/* Title + paper badge side by side */}
-          <div className="flex flex-wrap items-center gap-3 mb-3">
-            <h3 className="text-h3 text-on-surface">{title}</h3>
-            {/* Research paper status badge — only shows if paperStatus is set */}
-            {paper && (
-              <span className={`px-2.5 py-1 text-[10px] font-bold rounded-full ${paper.classes}`}>
-                {paper.label}
-              </span>
+            {/* Description */}
+            <p className="proj-desc font-mono text-body-sm text-[#555] mb-6 leading-relaxed">
+              {description}
+            </p>
+
+            {/* Case study banner */}
+            {caseStudyUrl && (
+              <a
+                href={caseStudyUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between w-full px-4 py-3 mb-6 border-2 border-ink hover:bg-acid transition-colors"
+              >
+                <span className="font-mono text-[0.7rem] uppercase tracking-widest">
+                  Read case study
+                </span>
+                <span className="text-sm">→</span>
+              </a>
             )}
           </div>
 
-          <p className="text-body-md text-on-surface-variant mb-6">{description}</p>
-
-          {/* ── Case Study Banner ──────────────────────────────── */}
-          {/* Only renders if caseStudyUrl is set in projects.js   */}
-          {caseStudyUrl && (
-            <a
-              href={caseStudyUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-between w-full px-5 py-3.5 mb-5 rounded-xl bg-gradient-to-r from-primary/10 to-secondary/10 border border-primary/20 hover:from-primary/20 hover:to-secondary/20 hover:border-primary/40 transition-all group/cs"
-            >
-              <div className="flex items-center gap-3">
-                {/* Document icon */}
-                <div className="w-8 h-8 rounded-lg bg-primary/15 flex items-center justify-center flex-shrink-0">
-                  <span className="material-symbols-outlined text-primary text-[18px]">description</span>
-                </div>
-                <div className="text-left">
-                  <p className="text-sm font-semibold text-on-surface">Read Case Study</p>
-                  <p className="text-[11px] text-on-surface-variant">Full technical breakdown & results</p>
-                </div>
-              </div>
-              {/* Arrow that nudges right on hover */}
-              <span className="material-symbols-outlined text-primary text-[20px] group-hover/cs:translate-x-1 transition-transform">
-                arrow_forward
-              </span>
-            </a>
-          )}
-
-          {/* ── Action Buttons (GitHub / Live Demo) ─────────────── */}
-          <div className="flex gap-3">
+          {/* Action buttons */}
+          <div className="flex flex-wrap gap-3">
             {liveUrl && (
-              <a
-                href={liveUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex-1 px-4 py-3 rounded-lg bg-primary text-on-primary text-sm font-semibold active:scale-95 transition-transform flex items-center justify-center gap-2"
-              >
-                <span className="material-symbols-outlined text-[18px]">play_circle</span>
-                Live Demo
+              <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="btn-ink text-[0.65rem]">
+                Live demo ↗
               </a>
             )}
             {github && (
-              <a
-                href={github}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-3 rounded-lg border border-outline-variant text-sm font-semibold hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2"
-              >
-                <span className="material-symbols-outlined text-[18px]">code</span>
-                GitHub
+              <a href={github} target="_blank" rel="noopener noreferrer" className="btn-ghost text-[0.65rem]">
+                GitHub ↗
               </a>
             )}
-            {/* If paper is published, also show a link to it */}
             {paperStatus === 'published' && paperUrl && (
-              <a
-                href={paperUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-3 rounded-lg border border-secondary/40 text-secondary text-sm font-semibold hover:bg-secondary/5 transition-colors flex items-center justify-center gap-2"
-              >
-                <span className="material-symbols-outlined text-[18px]">open_in_new</span>
-                Paper
+              <a href={paperUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost text-[0.65rem]" style={{ borderColor: '#E84B2A', color: '#E84B2A' }}>
+                Paper ↗
               </a>
             )}
           </div>
@@ -159,64 +111,60 @@ export default function ProjectCard({ project }) {
     )
   }
 
-  // ── Regular Card (vertical) ───────────────────────────────────
+  /* ── Regular card ──────────────────────────────────────── */
   return (
-    <div className="group bg-white rounded-2xl border border-outline-variant/30 overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 flex flex-col">
+    <div className="project-card border-brutal-b border-brutal-r flex flex-col">
 
-      {/* Project image */}
-      <div className="relative overflow-hidden h-48 bg-slate-100">
+      {/* Image */}
+      <div className="relative h-44 overflow-hidden border-brutal-b bg-surface flex-shrink-0">
         <img
           src={image}
           alt={`${title} screenshot`}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full object-cover"
           onError={(e) => { e.target.style.display = 'none' }}
         />
       </div>
 
-      {/* Card content */}
-      <div className="p-6 flex-grow">
-
+      {/* Content */}
+      <div className="flex flex-col flex-1 p-6">
         {/* Tech tags */}
         <div className="flex flex-wrap gap-2 mb-4">
           {tech.map((tag) => (
-            <span key={tag} className={`px-2 py-1 text-[10px] font-bold rounded ${getTechColor(tag)}`}>
-              {tag.toUpperCase()}
+            <span key={tag} className="proj-tag font-mono text-[0.6rem] uppercase tracking-widest border border-current px-2 py-0.5">
+              {tag}
             </span>
           ))}
         </div>
 
-        <h3 className="text-h3 text-on-surface mb-2">{title}</h3>
-        <p className="text-body-md text-on-surface-variant mb-6">{description}</p>
-      </div>
+        {/* Title */}
+        <div className="flex items-start justify-between gap-2 mb-2">
+          <h3 className="font-display font-extrabold text-display-md leading-tight">{title}</h3>
+          <span className="proj-arrow text-lg mt-1 flex-shrink-0">↗</span>
+        </div>
 
-      {/* Action buttons pinned to the bottom */}
-      <div className="p-6 pt-0 flex gap-3">
-        {liveUrl && (
-          <a
-            href={liveUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 px-4 py-2 rounded-lg bg-primary text-on-primary text-sm font-semibold active:scale-95 transition-transform flex items-center justify-center gap-2"
-          >
-            <span className="material-symbols-outlined text-[18px]">play_circle</span>
-            Demo
-          </a>
-        )}
-        {github && (
-          <a
-            href={github}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex-1 px-4 py-2 rounded-lg border border-outline-variant text-sm font-semibold hover:bg-surface-container-low transition-colors flex items-center justify-center gap-2"
-          >
-            <span className="material-symbols-outlined text-[18px]">code</span>
-            GitHub
-          </a>
-        )}
-        {/* Show a label if no links are available */}
-        {!liveUrl && !github && (
-          <span className="text-sm text-on-surface-variant italic">Private / Coming Soon</span>
-        )}
+        {/* Description */}
+        <p className="proj-desc font-mono text-body-sm text-[#555] leading-relaxed flex-1 mb-6">
+          {description}
+        </p>
+
+        {/* Buttons */}
+        <div className="flex flex-wrap gap-3 mt-auto">
+          {liveUrl && (
+            <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="btn-ink text-[0.65rem]">
+              Demo ↗
+            </a>
+          )}
+          {github && (
+            <a href={github} target="_blank" rel="noopener noreferrer" className="btn-ghost text-[0.65rem]">
+              GitHub ↗
+            </a>
+          )}
+          {!liveUrl && !github && (
+            <span className="font-mono text-[0.65rem] text-[#aaa] uppercase tracking-widest">
+              Private / Coming soon
+            </span>
+          )}
+        </div>
       </div>
     </div>
   )

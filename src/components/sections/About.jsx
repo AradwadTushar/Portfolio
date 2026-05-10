@@ -1,86 +1,132 @@
 /**
  * About
  * ─────────────────────────────────────────────────────────────
- * Two-column layout:
- *   Left  — Quote card with your name and role
- *   Right — Bio text + stats (apps deployed / years exp)
- *
- * Update the quote, bio paragraphs, and stats to match your real info.
+ * Two-column brutalist layout:
+ *   Left  — large display quote + initials block
+ *   Right — bio timeline + stat chips
  */
+
+const TIMELINE = [
+  { year: '2026', text: 'Shipped Salon Management desktop app in Electron' },
+  { year: '2025', text: 'Graduated B.Tech (IT) — started going all-in on AI/ML' },
+  { year: '2024', text: 'Built NutriLens: OCR + LLMs to decode food labels' },
+  { year: '2023', text: 'Built AI-powered Resume Analyzer & Builder V1' },
+  { year: '2022', text: 'Fell down the full-stack rabbit hole. Never came back.' },
+]
+
+const STATS = [
+  { num: 'B.Tech IT', label: 'Graduated Aug 2025' },
+  { num: '21',        label: 'Years old (soon 22)' },
+  { num: '5+',        label: 'Apps shipped'        },
+  { num: '∞',         label: 'Stack experiments'   },
+]
 
 export default function About() {
   return (
-    <section id="about" className="py-20 px-6">
-      <div className="max-w-container mx-auto flex flex-col lg:flex-row gap-16 items-center">
+    <section id="about" className="border-brutal-b">
 
-        {/* ── Left: Quote Card ────────────────────────────────── */}
-        <div className="w-full lg:w-1/2 relative">
+      {/* Section label */}
+      <div className="px-8 py-4 border-brutal-b">
+        <span className="font-mono text-label uppercase tracking-widest text-[#888]">
+          02 — About
+        </span>
+      </div>
 
-          {/* Decorative blurred circles in the background */}
-          <div className="absolute -top-4 -left-4 w-24 h-24 bg-primary/10 rounded-full blur-2xl" />
-          <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-secondary/10 rounded-full blur-2xl" />
+      <div className="grid grid-cols-1 lg:grid-cols-2 border-brutal-b">
 
-          <div className="bg-surface-container-lowest p-8 rounded-3xl border border-outline-variant/30 shadow-xl relative overflow-hidden">
+        {/* Left — quote + initials */}
+        <div className="border-brutal-b lg:border-brutal-b-0 lg:border-brutal-r p-8 lg:p-12 flex flex-col justify-between gap-12">
 
-            {/* Decorative XML tag — gives a "developer" feel */}
-            <div className="font-mono text-xs text-on-surface-variant/50 mb-5 opacity-100">
-              <h4>developer Journey</h4>
-            </div>
-
-            {/* Quote — update this to your own words */}
-            <p className="text-body-lg text-on-surface-variant mb-6 leading-relaxed italic">
-              "I believe true engineering expertise isn't found in textbooks, but in the
-              trenches of production-ready builds. My approach is rooted in blending
-              full-stack development with AI to solve tangible, real-world problems."
+          {/* Big quote */}
+          <div>
+            <p className="font-display font-extrabold text-display-lg text-ink leading-tight mb-8">
+              "I don't wait<br />
+              to feel ready.<br />
+              <span className="text-rust">I build to get there."</span>
             </p>
+            <p className="font-mono text-body-sm text-[#666] max-w-sm leading-relaxed">
+              Most 21-year-olds are still figuring out what they want to do.
+              I already know — build things that are genuinely useful, ship them,
+              and learn what textbooks can't teach.
+            </p>
+          </div>
 
-            {/* Attribution */}
-            <div className="flex items-center gap-4">
-              {/* Avatar placeholder — just shows initials */}
-              <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-lg">
-                T
-              </div>
-              <div>
-                <h4 className="font-semibold text-on-surface">Tushar Aradwad</h4>
-                <p className="text-sm text-on-surface-variant">Full Stack &amp; AI Developer</p>
-              </div>
+          {/* Initials block */}
+          <div className="flex items-center gap-5">
+            <div className="w-16 h-16 bg-ink flex items-center justify-center flex-shrink-0">
+              <span className="font-display font-extrabold text-acid text-2xl">TA</span>
+            </div>
+            <div>
+              <p className="font-display font-bold text-lg text-ink leading-tight">Tushar Aradwad</p>
+              <p className="font-mono text-label uppercase tracking-widest text-[#888]">
+                Full-Stack · AI/ML · Nagpur, India
+              </p>
             </div>
           </div>
         </div>
 
-        {/* ── Right: Bio + Stats ──────────────────────────────── */}
-        <div className="w-full lg:w-1/2">
-          <h2 className="text-h2 text-on-surface mb-8">Learning by Building</h2>
+        {/* Right — bio + timeline + stats */}
+        <div className="p-8 lg:p-12 flex flex-col gap-10">
 
-          {/* Bio paragraphs — update with your own story */}
-          <div className="space-y-6 text-body-md text-on-surface-variant">
-            <p>
-              I build practical, real-world applications by blending full-stack development
-              with AI. I enjoy turning ideas into working products using tools like MERN,
-              Python, OCR, and LLMs.
-            </p>
-            <p>
-              Whether it's optimizing data extraction from images or crafting responsive
-              web interfaces, my focus is always on creating value. I specialize in the
-              modern web stack, but my core skill is the ability to rapidly adapt to new
-              paradigms and technologies in the AI era.
-            </p>
+          {/* Bio */}
+          <div>
+            <h2 className="font-display font-extrabold text-display-md text-ink mb-6">
+              The story so far.
+            </h2>
+            <div className="font-mono text-body-sm text-[#555] leading-relaxed space-y-4">
+              <p>
+                Fresh out of B.Tech IT, I'm the kind of developer who doesn't stop
+                at "it works." I experiment across the stack — Electron desktop apps,
+                React frontends, Node.js APIs, Python backends, and now AI/ML territory
+                with LLMs, OCR, and model APIs from Claude, OpenAI, and Google.
+              </p>
+              <p>
+                I built my first real app because I was frustrated a tool didn't exist.
+                That's still the engine. Every project on this site started as a problem
+                I personally ran into — or a curiosity I couldn't ignore.
+              </p>
+              <p>
+                Right now I'm deep in AI/ML, learning how models actually work under
+                the hood and building tools on top of them. The goal isn't to use AI —
+                it's to build things with AI that wouldn't have been possible before.
+              </p>
+            </div>
           </div>
 
-          {/* ── Stats Grid ──────────────────────────────────────── */}
-          {/* Update these numbers to match your real experience */}
-          <div className="mt-10 grid grid-cols-2 gap-4">
-            <div className="p-4 rounded-xl border border-outline-variant/30 bg-surface-container-low">
-              <span className="block text-h2 text-primary font-bold">5+</span>
-              <span className="text-sm font-medium text-on-surface-variant">Apps Deployed</span>
+          {/* Timeline */}
+          <div>
+            <p className="font-mono text-label uppercase tracking-widest text-[#888] mb-5">
+              Timeline
+            </p>
+            <div className="space-y-4">
+              {TIMELINE.map(({ year, text }) => (
+                <div key={year} className="flex gap-4 items-start">
+                  <span className="timeline-dot mt-[6px]" />
+                  <div>
+                    <span className="font-mono text-[0.65rem] uppercase tracking-widest text-rust mr-3">
+                      {year}
+                    </span>
+                    <span className="font-mono text-body-sm text-[#555]">{text}</span>
+                  </div>
+                </div>
+              ))}
             </div>
-            <div className="p-4 rounded-xl border border-outline-variant/30 bg-surface-container-low">
-              <span className="block text-h2 text-secondary font-bold">1+</span>
-              <span className="text-sm font-medium text-on-surface-variant">Years Exp</span>
-            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="grid grid-cols-2 gap-3">
+            {STATS.map(({ num, label }) => (
+              <div key={label} className="border-2 border-ink p-4">
+                <div className="font-display font-extrabold text-display-md text-ink leading-none mb-1">
+                  {num}
+                </div>
+                <div className="font-mono text-label uppercase tracking-widest text-[#888]">
+                  {label}
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-
       </div>
     </section>
   )
