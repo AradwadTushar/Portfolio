@@ -4,7 +4,7 @@
  * Two-column brutalist layout
  */
 
-import { useEffect, useState, useRef } from 'react'
+import { useEffect, useState, useRef, useCallback } from 'react'
 import NeuralSignature from '../ui/NeuralSignature.jsx'
 
 const STACK = [
@@ -57,16 +57,16 @@ export default function Hero() {
   
   const logContainerRef = useRef(null)
 
-  const handleLogAdded = (logText) => {
+  const handleLogAdded = useCallback((logText) => {
     setTerminalLogs((prev) => {
       const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
       return [...prev.slice(-14), `[${timestamp}] ${logText}`];
     });
-  };
+  }, []);
 
-  const handleRadarUpdate = (info) => {
+  const handleRadarUpdate = useCallback((info) => {
     setRadarInfo(info);
-  };
+  }, []);
 
   useEffect(() => {
     if (logContainerRef.current) {

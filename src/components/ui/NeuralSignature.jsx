@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 /**
  * NeuralSignature
@@ -13,6 +13,15 @@ export default function NeuralSignature({
 }) {
   const canvasRef = useRef(null);
   const wrapRef = useRef(null);
+
+  // Store callbacks in mutable refs to completely avoid infinite render resets
+  const onLogAddedRef = useRef(onLogAdded);
+  const onRadarUpdateRef = useRef(onRadarUpdate);
+
+  useEffect(() => {
+    onLogAddedRef.current = onLogAdded;
+    onRadarUpdateRef.current = onRadarUpdate;
+  }, [onLogAdded, onRadarUpdate]);
 
   // Define nodes in proportional coordinate space (400x400 coordinate standard)
   const DEFAULT_NODES = [
@@ -102,9 +111,9 @@ export default function NeuralSignature({
       if (connectedSet.length === nodes.length) {
         systemState = "compiling";
         compileTimer = 15000; // 15 seconds compile phase
-        if (onLogAdded) {
-          onLogAdded("⚡ Compile trigger: All system cores connected. Optimization 99.8%.");
-          onLogAdded("⚡ Compiling pipeline: Building production bundle...");
+        if (onLogAddedRef.current) {
+          onLogAddedRef.current("⚡ Compile trigger: All system cores connected. Optimization 99.8%.");
+          onLogAddedRef.current("⚡ Compiling pipeline: Building production bundle...");
         }
         return;
       }
@@ -132,11 +141,11 @@ export default function NeuralSignature({
       }
 
       buildProgress = 0;
-      if (currentTargetIndex !== null && onLogAdded) {
+      if (currentTargetIndex !== null && onLogAddedRef.current) {
         const sourceNode = getSourceNodeFor(currentTargetIndex);
         const targetNode = nodes[currentTargetIndex];
-        onLogAdded(`> Gateway search: Routing path toward [${targetNode.label.toUpperCase()}]`);
-        onLogAdded(`> Channel initialized: ${sourceNode.label} -> ${targetNode.label} (Building data bridge)...`);
+        onLogAddedRef.current(`> Gateway search: Routing path toward [${targetNode.label.toUpperCase()}]`);
+        onLogAddedRef.current(`> Channel initialized: ${sourceNode.label} -> ${targetNode.label} (Building data bridge)...`);
       }
     }
 
@@ -199,14 +208,14 @@ export default function NeuralSignature({
           // Connected node: Spawn sub-skills floating tag
           const subskills = KEYWORDS[clickedNode.label] || [];
           spawnFloatingWords(clickedNode, subskills);
-          if (onLogAdded) {
-            onLogAdded(`> Query active: Core [${clickedNode.label.toUpperCase()}] online and active.`);
+          if (onLogAddedRef.current) {
+            onLogAddedRef.current(`> Query active: Core [${clickedNode.label.toUpperCase()}] online and active.`);
           }
         } else {
           // Unconnected node: User sets path priority lock
           userPriorityIndex = clickedIndex;
-          if (onLogAdded) {
-            onLogAdded(`> Intercept: User requested priority connection lock on [${clickedNode.label.toUpperCase()}]`);
+          if (onLogAddedRef.current) {
+            onLogAddedRef.current(`> Intercept: User requested priority connection lock on [${clickedNode.label.toUpperCase()}]`);
           }
           findNextTarget();
         }
@@ -278,8 +287,8 @@ export default function NeuralSignature({
           if (userPriorityIndex === currentTargetIndex) {
             userPriorityIndex = null;
           }
-          if (onLogAdded) {
-            onLogAdded(`> Pipeline success: linked [${source.label}] -> [${target.label}] (Link status: STABLE).`);
+          if (onLogAddedRef.current) {
+            onLogAddedRef.current(`> Pipeline success: linked [${source.label}] -> [${target.label}] (Link status: STABLE).`);
           }
           // Trigger a pulse impact ripple at target
           triggerRipple(target.x, target.y);
@@ -288,11 +297,11 @@ export default function NeuralSignature({
         }
 
         // Radar telemetry updates
-        if (onRadarUpdate) {
+        if (onRadarUpdateRef.current) {
           const distFromCenter = Math.hypot(target.x - width / 2, target.y - height / 2);
           const rawAngle = Math.atan2(target.y - height / 2, target.x - width / 2);
           const angleDeg = ((rawAngle * 180) / Math.PI + 360) % 360;
-          onRadarUpdate({
+          onRadarUpdateRef.current({
             target: target.label,
             distance: Math.round(distFromCenter),
             progress: Math.round(buildProgress * 100),
@@ -306,9 +315,9 @@ export default function NeuralSignature({
         if (compileTimer <= 0) {
           systemState = "cooldown";
           compileTimer = 12000; // 12 seconds cooldown/active phase
-          if (onLogAdded) {
-            onLogAdded("⚡ Compile complete. AI Agent compiling finished successfully.");
-            onLogAdded("⚡ Model status: Running full-stack loop.");
+          if (onLogAddedRef.current) {
+            onLogAddedRef.current("⚡ Compile complete. AI Agent compiling finished successfully.");
+            onLogAddedRef.current("⚡ Model status: Running full-stack loop.");
           }
         }
       } else if (systemState === "cooldown") {
@@ -319,8 +328,8 @@ export default function NeuralSignature({
           currentTargetIndex = null;
           userPriorityIndex = null;
           systemState = "growing";
-          if (onLogAdded) {
-            onLogAdded("🔄 System Recycle: Resetting AI compiling nodes...");
+          if (onLogAddedRef.current) {
+            onLogAddedRef.current("🔄 System Recycle: Resetting AI compiling nodes...");
           }
           findNextTarget();
         }
@@ -517,7 +526,7 @@ export default function NeuralSignature({
       canvas.removeEventListener("mousemove", onMove);
       canvas.removeEventListener("mouseleave", onLeave);
     };
-  }, [accent, onLogAdded, onRadarUpdate]);
+  }, [accent]); // Only restart loop if accent color changes (callbacks are referenced via refs)
 
   return (
     <div ref={wrapRef} style={{ width: "100%", height: height || "100%", minHeight: "260px", position: "relative" }}>
