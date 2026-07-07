@@ -77,8 +77,9 @@ export default function NeuralSignature({
 
     function resize() {
       const rect = wrap.getBoundingClientRect();
-      width = rect.width;
-      height = rect.height;
+      // Bulletproof layout fallback: if container has 0 width/height on early render, default to dashboard standard size
+      width = rect.width || 400;
+      height = rect.height || 280;
       canvas.width = width * dpr;
       canvas.height = height * dpr;
       canvas.style.width = width + "px";
@@ -519,7 +520,7 @@ export default function NeuralSignature({
   }, [accent, onLogAdded, onRadarUpdate]);
 
   return (
-    <div ref={wrapRef} style={{ width: "100%", height, position: "relative" }}>
+    <div ref={wrapRef} style={{ width: "100%", height: height || "100%", minHeight: "260px", position: "relative" }}>
       <canvas
         ref={canvasRef}
         style={{ display: "block", width: "100%", height: "100%", cursor: "crosshair" }}
