@@ -5,6 +5,7 @@
  */
 
 import { useEffect, useState, useRef } from 'react'
+import NeuralSignature from '../ui/NeuralSignature.jsx'
 
 const STACK = [
   { label: 'Electron', active: true },
@@ -45,21 +46,8 @@ const LOG_POOL = [
   '> local models online...',
 ]
 
-const NODES = [
-  { id: 1, x: 80, y: 100, label: 'React' },
-  { id: 2, x: 300, y: 120, label: 'FastAPI' },
-  { id: 3, x: 150, y: 280, label: 'AI/ML' },
-  { id: 4, x: 320, y: 260, label: 'PostgreSQL' },
-  { id: 5, x: 220, y: 60, label: 'Python' },
-  { id: 6, x: 80, y: 220, label: 'Electron' },
-  { id: 7, x: 260, y: 190, label: 'Clerk' },
-  { id: 8, x: 190, y: 140, label: 'WeasyPrint' },
-]
-
 export default function Hero() {
   const [activeTab, setActiveTab] = useState('matrix')
-  const [mousePos, setMousePos] = useState({ x: 200, y: 200 })
-  const [isHovered, setIsHovered] = useState(false)
   const [terminalLogs, setTerminalLogs] = useState([
     '> initializing AI runtime...',
     '> local models online...',
@@ -83,29 +71,6 @@ export default function Hero() {
       logContainerRef.current.scrollTop = logContainerRef.current.scrollHeight;
     }
   }, [terminalLogs]);
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 400;
-    const y = ((e.clientY - rect.top) / rect.height) * 400;
-    setMousePos({ x, y });
-  };
-
-  // Calculate nearest node for HUD lock-on feedback
-  let nearestNode = null;
-  let nearestDist = Infinity;
-  if (isHovered && activeTab === 'matrix') {
-    NODES.forEach((node) => {
-      const dist = Math.hypot(node.x - mousePos.x, node.y - mousePos.y);
-      if (dist < nearestDist) {
-        nearestDist = dist;
-        nearestNode = node;
-      }
-    });
-    if (nearestDist > 100) {
-      nearestNode = null;
-    }
-  }
 
   return (
     <>
@@ -216,127 +181,19 @@ export default function Hero() {
               </div>
 
               {/* Dynamic Workspace Container */}
-              <div className="flex-1 relative overflow-hidden bg-[#FAF7F2] p-4 flex items-center justify-center min-h-[260px]">
+              <div className={`flex-1 relative overflow-hidden p-4 flex items-center justify-center min-h-[260px] transition-colors duration-300 ${activeTab === 'matrix' ? 'bg-[#0D0D0D]' : 'bg-[#FAF7F2]'}`}>
                 <div className="scanlines" />
                 <div className="noise" />
 
                 {/* MATRIX VIEW */}
                 {activeTab === 'matrix' && (
-                  <div className="w-full h-full relative flex items-center justify-center">
-                    <svg
-                      className="w-full h-full max-h-[300px] cursor-none"
-                      viewBox="0 0 400 400"
-                      fill="none"
-                      onMouseMove={handleMouseMove}
-                      onMouseEnter={() => setIsHovered(true)}
-                      onMouseLeave={() => setIsHovered(false)}
-                    >
-                      <defs>
-                        <pattern id="matrix-grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                          <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#0D0D0D" strokeWidth="0.5" opacity="0.08" />
-                        </pattern>
-                      </defs>
-                      <rect width="100%" height="100%" fill="url(#matrix-grid)" />
-
-                      {/* Holographic Diagnostic scanner line */}
-                      <line x1="0" y1="0" x2="400" y2="0" stroke="#CAFF00" strokeWidth="2.5" className="matrix-scan-line" opacity="0.35" />
-
-                      {/* Mesh connection lines */}
-                      <line x1="80" y1="100" x2="220" y2="60" stroke="#0D0D0D" strokeWidth="1" opacity="0.1" />
-                      <line x1="80" y1="100" x2="190" y2="140" stroke="#0D0D0D" strokeWidth="1" opacity="0.1" />
-                      <line x1="220" y1="60" x2="300" y2="120" stroke="#0D0D0D" strokeWidth="1" opacity="0.1" />
-                      <line x1="300" y1="120" x2="260" y2="190" stroke="#0D0D0D" strokeWidth="1" opacity="0.1" />
-                      <line x1="190" y1="140" x2="260" y2="190" stroke="#0D0D0D" strokeWidth="1" opacity="0.1" />
-                      <line x1="190" y1="140" x2="150" y2="280" stroke="#0D0D0D" strokeWidth="1" opacity="0.1" />
-                      <line x1="80" y1="220" x2="150" y2="280" stroke="#0D0D0D" strokeWidth="1" opacity="0.1" />
-                      <line x1="260" y1="190" x2="320" y2="260" stroke="#0D0D0D" strokeWidth="1" opacity="0.1" />
-                      <line x1="150" y1="280" x2="320" y2="260" stroke="#0D0D0D" strokeWidth="1" opacity="0.1" />
-
-                      {/* Interactive Mouse Connection Lines */}
-                      {NODES.map((node) => {
-                        const dist = Math.hypot(node.x - mousePos.x, node.y - mousePos.y);
-                        const opacity = isHovered ? Math.max(0, 1 - dist / 160) : 0;
-                        if (opacity <= 0) return null;
-                        return (
-                          <line
-                            key={`mouse-conn-${node.id}`}
-                            x1={node.x}
-                            y1={node.y}
-                            x2={mousePos.x}
-                            y2={mousePos.y}
-                            stroke="#E84B2A"
-                            strokeWidth="1.5"
-                            opacity={opacity * 0.75}
-                            strokeDasharray="3 3"
-                          />
-                        );
-                      })}
-
-                      {/* Render Skill Nodes */}
-                      {NODES.map((node) => {
-                        const isClose = isHovered && Math.hypot(node.x - mousePos.x, node.y - mousePos.y) < 65;
-                        const isLocked = nearestNode && nearestNode.id === node.id;
-                        return (
-                          <g key={node.id}>
-                            {isLocked && (
-                              <circle
-                                cx={node.x}
-                                cy={node.y}
-                                r="15"
-                                stroke="#E84B2A"
-                                strokeWidth="1"
-                                strokeDasharray="4 3"
-                                fill="none"
-                                className="animate-spin-slow"
-                                style={{ transformOrigin: `${node.x}px ${node.y}px` }}
-                              />
-                            )}
-                            <circle
-                              cx={node.x}
-                              cy={node.y}
-                              r={isClose ? "7" : "5"}
-                              fill={isClose ? "#E84B2A" : "#0D0D0D"}
-                              className="transition-all duration-300"
-                            />
-                            <text
-                              x={node.x}
-                              y={node.y - 12}
-                              textAnchor="middle"
-                              className="font-mono text-[9px] uppercase tracking-wider select-none font-bold"
-                              fill={isClose ? "#E84B2A" : "#888"}
-                            >
-                              {node.label}
-                            </text>
-                          </g>
-                        );
-                      })}
-
-                      {/* Advanced HUD Crosshair */}
-                      {isHovered && (
-                        <g transform={`translate(${mousePos.x}, ${mousePos.y})`}>
-                          <circle cx="0" cy="0" r="16" stroke="#E84B2A" strokeWidth="1" strokeDasharray="6 4" className="animate-spin-slow" style={{ transformOrigin: '0px 0px' }} />
-                          <circle cx="0" cy="0" r="10" stroke="#0D0D0D" strokeWidth="0.8" opacity="0.3" fill="none" />
-                          <circle cx="0" cy="0" r="2" fill="#E84B2A" />
-                          <line x1="-15" y1="0" x2="15" y2="0" stroke="#E84B2A" strokeWidth="1" opacity="0.6" />
-                          <line x1="0" y1="-15" x2="0" y2="15" stroke="#E84B2A" strokeWidth="1" opacity="0.6" />
-
-                          {/* Telemetry locking HUD readout */}
-                          <g transform="translate(20, -10)">
-                            <rect x="-2" y="-10" width="95" height="28" fill="#0D0D0D" stroke="#E84B2A" strokeWidth="1" opacity="0.95" />
-                            <text x="4" y="2" className="font-mono text-[8px] fill-[#CAFF00] font-bold tracking-widest">
-                              LOCK: {nearestNode ? nearestNode.label.toUpperCase() : 'SEARCHING'}
-                            </text>
-                            <text x="4" y="12" className="font-mono text-[7px] fill-[#888] tracking-widest">
-                              SIG: {nearestNode ? `${Math.round(100 - nearestDist * 0.8)}%` : '0.00%'}
-                            </text>
-                          </g>
-                        </g>
-                      )}
-                    </svg>
-
-                    <div className="absolute bottom-2 left-3 font-mono text-[9px] text-[#999] pointer-events-none uppercase tracking-widest">
-                      LOC: {isHovered ? `X:${mousePos.x.toFixed(0)} Y:${mousePos.y.toFixed(0)}` : 'SYS: STANDBY'}
-                    </div>
+                  <div className="w-full h-full min-h-[250px] relative">
+                    <NeuralSignature
+                      words={["React", "FastAPI", "Python", "AI/ML", "PostgreSQL", "Electron", "Clerk", "Systems", "Shipping", "Clean Code"]}
+                      nodeCount={60}
+                      accent="#E84B2A"
+                      height="100%"
+                    />
                   </div>
                 )}
 
