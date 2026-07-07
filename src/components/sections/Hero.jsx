@@ -48,23 +48,25 @@ const LOG_POOL = [
 
 export default function Hero() {
   const [activeTab, setActiveTab] = useState('matrix')
+  const [radarInfo, setRadarInfo] = useState(null)
   const [terminalLogs, setTerminalLogs] = useState([
-    '> initializing AI runtime...',
-    '> local models online...',
-    '> inference pipeline ready...',
+    '[INIT] initializing AI runtime...',
+    '[INIT] local models online...',
+    '[INIT] inference pipeline ready...',
   ])
   
   const logContainerRef = useRef(null)
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTerminalLogs((prev) => {
-        const nextLog = LOG_POOL[Math.floor(Math.random() * LOG_POOL.length)];
-        return [...prev.slice(-12), nextLog];
-      });
-    }, 1500);
-    return () => clearInterval(interval);
-  }, []);
+  const handleLogAdded = (logText) => {
+    setTerminalLogs((prev) => {
+      const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      return [...prev.slice(-14), `[${timestamp}] ${logText}`];
+    });
+  };
+
+  const handleRadarUpdate = (info) => {
+    setRadarInfo(info);
+  };
 
   useEffect(() => {
     if (logContainerRef.current) {
@@ -186,41 +188,43 @@ export default function Hero() {
                 <div className="noise" />
 
                 {/* MATRIX VIEW */}
-                {activeTab === 'matrix' && (
-                  <div className="w-full h-full min-h-[250px] relative">
-                    <NeuralSignature
-                      words={["React", "FastAPI", "Python", "AI/ML", "PostgreSQL", "Electron", "Clerk", "Systems", "Shipping", "Clean Code"]}
-                      nodeCount={60}
-                      accent="#E84B2A"
-                      height="100%"
-                    />
-                  </div>
-                )}
+                <div className={`w-full h-full min-h-[250px] relative ${activeTab === 'matrix' ? 'block' : 'hidden'}`}>
+                  <NeuralSignature
+                    onLogAdded={handleLogAdded}
+                    onRadarUpdate={handleRadarUpdate}
+                    accent="#E84B2A"
+                    height="100%"
+                  />
+                </div>
 
                 {/* LOG STREAM VIEW */}
-                {activeTab === 'logs' && (
-                  <div className="w-full h-full flex flex-col justify-between">
-                    <div
-                      ref={logContainerRef}
-                      className="w-full flex-1 overflow-y-auto max-h-[220px] font-mono text-[13px] text-[#444] leading-relaxed p-2 scrollbar-thin"
-                    >
-                      {terminalLogs.map((log, i) => (
-                        <div key={i} className="mb-1 border-l-2 border-rust/30 pl-2">
-                          {log}
-                        </div>
-                      ))}
-                      <span className="terminal-cursor text-rust font-bold">_</span>
-                    </div>
-                    <div className="font-mono text-[8px] uppercase tracking-wider text-[#bbb] mt-2 select-none">
-                      Real-time analytics engine stream
-                    </div>
+                <div className={`w-full h-full flex flex-col justify-between ${activeTab === 'logs' ? 'block' : 'hidden'}`}>
+                  <div
+                    ref={logContainerRef}
+                    className="w-full flex-1 overflow-y-auto max-h-[220px] font-mono text-[13px] text-[#444] leading-relaxed p-2 scrollbar-thin"
+                  >
+                    {terminalLogs.map((log, i) => (
+                      <div key={i} className="mb-1 border-l-2 border-rust/30 pl-2">
+                        {log}
+                      </div>
+                    ))}
+                    <span className="terminal-cursor text-rust font-bold">_</span>
                   </div>
-                )}
+                  <div className="font-mono text-[8px] uppercase tracking-wider text-[#bbb] mt-2 select-none">
+                    Real-time compilation logs
+                  </div>
+                </div>
 
                 {/* TECH RADAR VIEW */}
-                {activeTab === 'radar' && (
-                  <div className="w-full h-full flex items-center justify-center p-2">
-                    <svg className="w-[200px] h-[200px] sm:w-[240px] sm:h-[240px]" viewBox="0 0 400 400" fill="none">
+                <div className={`w-full h-full flex flex-col items-center justify-center p-2 ${activeTab === 'radar' ? 'flex' : 'hidden'}`}>
+                  {/* Radar Telemetry Header */}
+                  <div className="w-full max-w-[280px] font-mono text-[9px] text-[#888] flex justify-between mb-2 select-none">
+                    <span>SYS_SCANNER: ACTIVE</span>
+                    <span>LOCK: {radarInfo ? radarInfo.target.toUpperCase() : 'STANDBY'}</span>
+                  </div>
+
+                  <div className="relative w-[180px] h-[180px] sm:w-[220px] sm:h-[220px]">
+                    <svg className="w-full h-full" viewBox="0 0 400 400" fill="none">
                       {/* Grid circles */}
                       <circle cx="200" cy="200" r="180" stroke="#0D0D0D" strokeWidth="1" strokeDasharray="4 4" opacity="0.1" />
                       <circle cx="200" cy="200" r="130" stroke="#0D0D0D" strokeWidth="1" strokeDasharray="4 4" opacity="0.15" />
@@ -244,18 +248,53 @@ export default function Hero() {
                         </linearGradient>
                       </defs>
 
-                      {/* Radar targets */}
-                      <circle cx="120" cy="140" r="6" fill="#CAFF00" stroke="#0d0d0d" strokeWidth="1.5" className="radar-target" />
-                      <circle cx="290" cy="260" r="6" fill="#E84B2A" stroke="#0d0d0d" strokeWidth="1.5" className="radar-target" style={{ animationDelay: '0.8s' }} />
-                      <circle cx="250" cy="110" r="6" fill="#0D0D0D" stroke="#0d0d0d" strokeWidth="1.5" className="radar-target" style={{ animationDelay: '1.4s' }} />
-
-                      {/* Node labels */}
-                      <text x="120" y="120" textAnchor="middle" className="font-mono text-[9px] uppercase tracking-wider font-bold" fill="#888">AI CORES</text>
-                      <text x="290" y="240" textAnchor="middle" className="font-mono text-[9px] uppercase tracking-wider font-bold" fill="#888">BACKEND</text>
-                      <text x="250" y="90" textAnchor="middle" className="font-mono text-[9px] uppercase tracking-wider font-bold" fill="#888">FRONTEND</text>
+                      {/* Active target tracking pointer */}
+                      {radarInfo && (
+                        <>
+                          {/* Radial lock-on line from center to target */}
+                          <line
+                            x1="200"
+                            y1="200"
+                            x2={radarInfo.xPct * 400}
+                            y2={radarInfo.yPct * 400}
+                            stroke="#CAFF00"
+                            strokeWidth="1.2"
+                            strokeDasharray="3 3"
+                            opacity="0.6"
+                          />
+                          
+                          {/* Radar targeted dot */}
+                          <circle
+                            cx={radarInfo.xPct * 400}
+                            cy={radarInfo.yPct * 400}
+                            r="6"
+                            fill="#CAFF00"
+                            stroke="#0d0d0d"
+                            strokeWidth="1.5"
+                            className="radar-target"
+                          />
+                          
+                          {/* Text HUD next to targeted dot */}
+                          <text
+                            x={radarInfo.xPct * 400}
+                            y={radarInfo.yPct * 400 - 10}
+                            textAnchor="middle"
+                            className="font-mono text-[9px] uppercase tracking-wider font-bold fill-[#E84B2A] select-none"
+                          >
+                            {radarInfo.target}
+                          </text>
+                        </>
+                      )}
                     </svg>
                   </div>
-                )}
+
+                  {/* Telemetry Footer Info */}
+                  <div className="w-full max-w-[280px] font-mono text-[8px] text-[#aaa] flex justify-between mt-2 select-none uppercase">
+                    <span>BEARING: {radarInfo ? `${radarInfo.angle}°` : '0°'}</span>
+                    <span>DIST: {radarInfo ? `${radarInfo.distance}m` : '0m'}</span>
+                    <span>SIG: {radarInfo ? `${radarInfo.progress}%` : '0.00%'}</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
