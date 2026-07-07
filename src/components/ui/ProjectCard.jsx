@@ -92,7 +92,7 @@ export default function ProjectCard({ project }) {
           <div className="flex flex-wrap gap-3">
             {liveUrl && (
               <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="btn-ink text-[0.65rem]">
-                Live demo ↗
+                Live Site ↗
               </a>
             )}
             {github && (
@@ -151,12 +151,17 @@ export default function ProjectCard({ project }) {
         <div className="flex flex-wrap gap-3 mt-auto">
           {liveUrl && (
             <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="btn-ink text-[0.65rem]">
-              Demo ↗
+              Live Site ↗
             </a>
           )}
           {github && (
             <a href={github} target="_blank" rel="noopener noreferrer" className="btn-ghost text-[0.65rem]">
               GitHub ↗
+            </a>
+          )}
+          {caseStudyUrl && (
+            <a href={caseStudyUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost text-[0.65rem]" style={{ borderColor: '#E84B2A', color: '#E84B2A' }}>
+              Case Study ↗
             </a>
           )}
           {!liveUrl && !github && (

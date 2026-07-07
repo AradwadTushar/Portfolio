@@ -347,3 +347,58 @@ section { scroll-margin-top: 58px; }
     text-align: center;
   }
 }
+
+/* ───────────────────────────── */
+/* TECH RADAR ANIMATIONS */
+/* ───────────────────────────── */
+@keyframes radar-sweep {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.radar-sweep-group {
+  animation: radar-sweep 5s linear infinite;
+}
+
+@keyframes radar-ping {
+  0%, 100% { opacity: 0.15; transform: scale(0.9); }
+  50%      { opacity: 1; transform: scale(1.15); }
+}
+.radar-target {
+  transform-origin: center;
+  animation: radar-ping 2.5s infinite ease-in-out;
+}
+
+/* Custom Scrollbar for terminal logs */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 4px;
+}
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(13, 13, 13, 0.2);
+  border-radius: 2px;
+}
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(13, 13, 13, 0.4);
+}
+
+/* Clockwise rotation for SVG nodes */
+@keyframes spin-clockwise {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+.animate-spin-slow {
+  animation: spin-clockwise 10s linear infinite;
+}
+
+/* Diagnostic scanner sweep */
+@keyframes scan-matrix {
+  0%   { transform: translateY(0); opacity: 0.05; }
+  10%  { opacity: 0.4; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(400px); opacity: 0.05; }
+}
+.matrix-scan-line {
+  animation: scan-matrix 6s linear infinite;
+}

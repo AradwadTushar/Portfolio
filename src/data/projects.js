@@ -40,9 +40,9 @@ const projects = [
     tech: ["React", "AI/ML", "OCR", "JavaScript", "Python"],
     github: "https://github.com/AradwadTushar/NutriLens---An-Ingredient-Scanner-", // ← replace with real URL
     liveUrl: "https://drive.google.com/file/d/1nmPrRFSIGwnWIaKynPd3_0XXLAPOZJ8t/view?usp=drive_link",
-    image: "/images/projects/nutrilens.png",     // ← add your screenshot here
+    image: "/images/projects/nutrilens.jpg",     // ← add your screenshot here
     featured: true,
-    caseStudyUrl: "https://drive.google.com/...", // ← replace with your real Google Drive link
+    caseStudyUrl: "https://drive.google.com/file/d/1ySgw6A2Jm1yFiffbgImRvOrUp0wekvWw/view?usp=sharing", // ← replace with your real Google Drive link
     paperStatus: "drafting",                      // "drafting" | "submitted" | "published" | null
     paperUrl: "https://drive.google.com/file/d/1ySgw6A2Jm1yFiffbgImRvOrUp0wekvWw/view?usp=drive_link",                               // only needed when paperStatus = "published"
   },
@@ -55,31 +55,32 @@ const projects = [
     tech: ["Electron", "JavaScript", "Node.js"],
    github: "https://github.com/AradwadTushar/Salon-Management-App", // ← replace with real URL
     liveUrl: null,
-    image: "/images/projects/salon-app.png",     // ← add your screenshot here
+    image: "/images/projects/salon-app.jpg",     // ← add your screenshot here
     featured: false,
   },
   {
     id: 3,
-    title: "Project Title",                       // ← replace with your project name
+    title: "ResumeIQ AI",
     description:
-      "Short description of what this project does and the problem it solves.", // ← replace
-    category: "Web",                              // ← "Web" | "Mobile" | "AI" | "Desktop"
-    tech: ["React", "Node.js"],                   // ← your tech stack
-    github: null,                                 // ← add URL or keep null
-    liveUrl: null,
-    image: "/images/projects/placeholder.png",   // ← add your screenshot
+      "AI-powered resume builder, ATS optimization & analytics engine featuring a live document editor, Jinja2/WeasyPrint rendering, and local PDF parsing.",
+    category: "AI",
+    tech: ["React", "Python", "AI/ML", "FastAPI", "PostgreSQL", "Clerk"],
+    github: "https://github.com/AradwadTushar/AI-Based-Resume-Builder-and-Analyzer",
+    liveUrl: "https://resumeiq-ai.pages.dev/",
+    image: "/images/projects/resumeiq.jpg",
     featured: false,
+    caseStudyUrl: "https://drive.google.com/file/d/1ORS7VJDtdXRafkX6lI7_H2FNfiJEXQ0x/view?usp=drive_link",
   },
   {
     id: 4,
-    title: "Project Title",                       // ← replace with your project name
+    title: "E-Commerce Storefront",
     description:
-      "Short description of what this project does and the problem it solves.", // ← replace
-    category: "Web",                              // ← "Web" | "Mobile" | "AI" | "Desktop"
-    tech: ["Python", "Node.js"],                  // ← your tech stack
-    github: null,
+      "A clean, modern e-commerce storefront with product filtering, dynamic cart management, and interactive checkout systems.",
+    category: "Web",
+    tech: ["React", "Node.js", "JavaScript"],
+    github: "https://github.com/AradwadTushar/E-commerse",
     liveUrl: null,
-    image: "/images/projects/placeholder.png",   // ← add your screenshot
+    image: "/images/projects/ecommerce.jpg",
     featured: false,
   },
 ]
