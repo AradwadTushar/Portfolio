@@ -96,6 +96,18 @@ const projects = [
     featured: false,
     caseStudyUrl: "https://drive.google.com/file/d/1in--yRFxUlP-XP8OUxcN-6-QzA-OpHrz/view?usp=drive_link",
   },
+  {
+    id: 6,
+    title: "WhatsApp CRM dashboard",
+    description:
+      "Service and finance tracking dashboard driven directly by incoming WhatsApp messages and conversational prompts.",
+    category: ["Web", "AI"],
+    tech: ["React", "Node.js", "WebSockets", "WhatsApp API"],
+    github: "https://github.com/AradwadTushar",
+    liveUrl: null,
+    image: "/images/projects/whatsapp-crm.jpg",
+    featured: false,
+  },
 ]
 
 export default projects

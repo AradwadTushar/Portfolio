@@ -1,186 +1,102 @@
 /**
  * ProjectCard
  * ─────────────────────────────────────────────────────────────
- * Brutalist card — preserves full data contract from projects.js:
- *   featured, caseStudyUrl, paperStatus, paperUrl, github, liveUrl
- *
- * Featured card → spans 2 cols (lg:col-span-2), horizontal layout
- * Regular card  → standard vertical card
- *
- * All cards live inside the grid in Projects.jsx.
- * Each card has a 2px ink border on right + bottom (grid handles gaps via borders).
+ * Case study card for featured projects.
+ * Renders in a uniform vertical layout (Image on top, Body below).
+ * Preserves CRT scanlines, hover zoom, and background numbers.
  */
-
-const PAPER_LABELS = {
-  drafting:  'Paper — Coming soon',
-  submitted: 'Paper — Under review',
-  published: 'Paper — Published',
-}
 
 export default function ProjectCard({ project }) {
   const {
-    title, description, tech, github, liveUrl, image,
-    featured, caseStudyUrl, paperStatus, paperUrl, category,
-  } = project
+    id, title, description, tech, github, liveUrl, image,
+    caseStudyUrl, category,
+  } = project;
 
-  const paperLabel = PAPER_LABELS[paperStatus] || null
-
-  /* ── Featured card ─────────────────────────────────────── */
-  if (featured) {
-    return (
-      <div className="project-card lg:col-span-2 border-brutal-b border-brutal-r flex flex-col md:flex-row relative overflow-hidden group">
-
-        {/* Image — left half */}
-        <div className="card-img-container relative md:w-[45%] h-56 md:h-auto overflow-hidden border-brutal-b md:border-brutal-b-0 md:border-brutal-r bg-surface flex-shrink-0">
-          <img
-            src={image}
-            alt={`${title} screenshot`}
-            className="w-full h-full object-cover"
-            onError={(e) => { e.target.style.display = 'none' }}
-          />
-          {/* Featured badge */}
-          <div className="absolute top-3 left-3 bg-ink text-acid font-mono text-[0.6rem] uppercase tracking-widest px-2 py-1 z-20">
-            ★ Featured
-          </div>
-        </div>
-
-        {/* Content — right half */}
-        <div className="flex flex-col justify-between p-8 flex-1 relative z-10">
-          <div>
-            {/* Tech tags */}
-            <div className="flex flex-wrap gap-2 mb-4">
-              {tech.map((tag) => (
-                <span key={tag} className="proj-tag font-mono text-[0.6rem] uppercase tracking-widest border border-current px-2 py-0.5">
-                  {tag}
-                </span>
-              ))}
-              {paperLabel && (
-                <span className="font-mono text-[0.6rem] uppercase tracking-widest border border-rust text-rust px-2 py-0.5">
-                  {paperLabel}
-                </span>
-              )}
-            </div>
-
-            {/* Title */}
-            <div className="flex items-start justify-between gap-2 mb-3">
-              <h3 className="font-display font-extrabold text-display-md">{title}</h3>
-              <span className="proj-arrow text-xl mt-1 flex-shrink-0">↗</span>
-            </div>
-
-            {/* Description */}
-            <p className="proj-desc font-mono text-body-sm text-[#555] mb-6 leading-relaxed">
-              {description}
-            </p>
-
-            {/* Case study banner */}
-            {caseStudyUrl && (
-              <a
-                href={caseStudyUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-between w-full px-4 py-3 mb-6 border-2 border-ink hover:bg-acid hover:text-ink transition-colors"
-              >
-                <span className="font-mono text-[0.7rem] uppercase tracking-widest">
-                  Read case study
-                </span>
-                <span className="text-sm">→</span>
-              </a>
-            )}
-          </div>
-
-          {/* Action buttons */}
-          <div className="flex flex-wrap gap-3 z-20">
-            {liveUrl && (
-              <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="btn-ink text-[0.65rem]">
-                {category && category.includes('Mobile') ? 'Download App' : 'Live Site'} ↗
-              </a>
-            )}
-            {github && (
-              <a href={github} target="_blank" rel="noopener noreferrer" className="btn-ghost text-[0.65rem]">
-                GitHub ↗
-              </a>
-            )}
-            {paperStatus === 'published' && paperUrl && (
-              <a href={paperUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost text-[0.65rem]" style={{ borderColor: '#E84B2A', color: '#E84B2A' }}>
-                Paper ↗
-              </a>
-            )}
-          </div>
-        </div>
-
-        {/* Large Decorative Hollow Number */}
-        <span className="proj-num font-display font-extrabold text-[8rem] sm:text-[10rem] leading-none pointer-events-none select-none absolute bottom-[-15px] right-2">
-          {String(project.id).padStart(2, '0')}
-        </span>
-      </div>
-    )
-  }
-
-  /* ── Regular card ──────────────────────────────────────── */
   return (
-    <div className="project-card border-brutal-b border-brutal-r flex flex-col relative overflow-hidden group">
-
-      {/* Image */}
-      <div className="card-img-container relative h-44 overflow-hidden border-brutal-b bg-surface flex-shrink-0">
+    <div className="project-card flex flex-col bg-[#FAF7F2] border-2 border-ink relative overflow-hidden group">
+      
+      {/* Image Container with CRT Scanlines & Hover Zoom */}
+      <div className="card-img-container relative h-[200px] sm:h-[220px] overflow-hidden border-b-2 border-ink bg-[#EDEAE0] flex-shrink-0">
         <img
           src={image}
           alt={`${title} screenshot`}
           className="w-full h-full object-cover"
           onError={(e) => { e.target.style.display = 'none' }}
         />
+        {/* Case Study badge */}
+        <div className="absolute top-3.5 left-3.5 bg-ink text-acid font-mono text-[0.6rem] uppercase tracking-widest px-2.5 py-1 z-20 flex items-center gap-1.5 border border-ink">
+          <span className="h-1.5 w-1.5 rounded-full bg-[#E84B2A] animate-pulse" />
+          Case Study
+        </div>
       </div>
 
-      {/* Content */}
-      <div className="flex flex-col flex-1 p-6 relative z-10">
-        {/* Tech tags */}
-        <div className="flex flex-wrap gap-2 mb-4">
-          {tech.map((tag) => (
-            <span key={tag} className="proj-tag font-mono text-[0.6rem] uppercase tracking-widest border border-current px-2 py-0.5">
-              {tag}
-            </span>
-          ))}
+      {/* Body Content */}
+      <div className="feat-body p-6 flex flex-1 flex-col justify-between relative z-10">
+        <div>
+          {/* Tech tags */}
+          <div className="feat-tags flex flex-wrap gap-1.5 mb-4">
+            {tech.map((tag) => (
+              <span key={tag} className="proj-tag font-mono text-[0.6rem] uppercase tracking-widest border border-ink/40 px-2 py-0.5 text-[#555] bg-surface/50">
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {/* Title */}
+          <div className="flex items-start justify-between gap-2 mb-2">
+            <h3 className="font-display font-extrabold text-display-md leading-tight group-hover:text-acid transition-colors">{title}</h3>
+            <span className="proj-arrow text-lg mt-0.5 flex-shrink-0">↗</span>
+          </div>
+
+          {/* Description */}
+          <p className="proj-desc font-mono text-body-sm text-[#555] leading-relaxed mb-6">
+            {description}
+          </p>
         </div>
 
-        {/* Title */}
-        <div className="flex items-start justify-between gap-2 mb-2">
-          <h3 className="font-display font-extrabold text-display-md leading-tight">{title}</h3>
-          <span className="proj-arrow text-lg mt-1 flex-shrink-0">↗</span>
-        </div>
-
-        {/* Description */}
-        <p className="proj-desc font-mono text-body-sm text-[#555] leading-relaxed flex-1 mb-6">
-          {description}
-        </p>
-
-        {/* Buttons */}
-        <div className="flex flex-wrap gap-3 mt-auto z-20">
-          {liveUrl && (
-            <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="btn-ink text-[0.65rem]">
-              {category && category.includes('Mobile') ? 'Download App' : 'Live Site'} ↗
-            </a>
-          )}
-          {github && (
-            <a href={github} target="_blank" rel="noopener noreferrer" className="btn-ghost text-[0.65rem]">
-              GitHub ↗
-            </a>
-          )}
+        {/* Action Buttons */}
+        <div className="feat-actions flex items-center gap-2.5 mt-auto z-20">
           {caseStudyUrl && (
-            <a href={caseStudyUrl} target="_blank" rel="noopener noreferrer" className="btn-ghost text-[0.65rem]" style={{ borderColor: '#E84B2A', color: '#E84B2A' }}>
-              Case Study ↗
+            <a
+              href={caseStudyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-ink px-4 py-2 text-[0.68rem] font-bold border-2 border-ink flex items-center gap-1.5"
+            >
+              Read Case Study →
             </a>
           )}
-          {!liveUrl && !github && (
-            <span className="font-mono text-[0.65rem] text-[#aaa] uppercase tracking-widest">
-              Private / Coming soon
-            </span>
+          
+          {liveUrl && (
+            <a
+              href={liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="icon-link w-9 h-9 border-2 border-ink flex items-center justify-center font-mono hover:bg-[#CAFF00] hover:text-ink transition-colors"
+              title={category && category.includes('Mobile') ? 'Download Mobile App' : 'Visit Live Site'}
+            >
+              {category && category.includes('Mobile') ? '📲' : '🌐'}
+            </a>
+          )}
+
+          {github && (
+            <a
+              href={github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="icon-link w-9 h-9 border-2 border-ink flex items-center justify-center font-mono hover:bg-[#CAFF00] hover:text-ink transition-colors"
+              title="View Source on GitHub"
+            >
+              💻
+            </a>
           )}
         </div>
       </div>
 
       {/* Large Decorative Hollow Number */}
-      <span className="proj-num font-display font-extrabold text-[6.5rem] sm:text-[7.5rem] leading-none pointer-events-none select-none absolute bottom-[-10px] right-2">
-        {String(project.id).padStart(2, '0')}
+      <span className="proj-num font-display font-extrabold text-[7.5rem] leading-none pointer-events-none select-none absolute bottom-[-15px] right-2 transition-all duration-300">
+        {String(id).padStart(2, '0')}
       </span>
     </div>
-  )
+  );
 }
