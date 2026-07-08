@@ -474,3 +474,12 @@ section { scroll-margin-top: 58px; }
   background-image: radial-gradient(rgba(13, 13, 13, 0.08) 1.2px, transparent 1.2px);
   background-size: 20px 20px;
 }
+
+/* Floating Pip mascot brand color shifts & physics */
+.pip-mascot {
+  filter: hue-rotate(120deg) saturate(1.5) contrast(1.1);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.pip-mascot-container:hover .pip-mascot {
+  transform: translateY(-8px) scale(1.07) rotate(2.5deg);
+}

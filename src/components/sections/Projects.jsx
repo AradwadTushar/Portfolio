@@ -8,6 +8,7 @@ import ProjectCard from '../ui/ProjectCard.jsx';
  * Restructured premium two-tier layout:
  * - Tier 1: Case Studies (Vertical Grid + Full-Width Horizontal layout)
  * - Tier 2: Other Builds (Accordion list, showing secondary/open-source tools)
+ * - Margins: Waving/reading Pip mascots and scattered skill tags fill outer desktop space.
  */
 export default function Projects() {
   const [expandedId, setExpandedId] = useState(null);
@@ -21,7 +22,65 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="border-brutal-b py-20 px-6 sm:px-8 lg:px-12 bg-[#F5F0E8] projects-grid-bg relative">
+    <section id="projects" className="border-brutal-b py-20 px-6 sm:px-8 lg:px-12 bg-[#F5F0E8] projects-grid-bg relative overflow-hidden">
+      
+      {/* ── BACKGROUND SCATTERED SKILLS (Left Margin) ───────────────── */}
+      <div className="hidden xl:block absolute left-10 top-[22%] opacity-20 rotate-[-6deg] font-mono text-xs border border-ink/40 px-2 py-1 select-none pointer-events-none">
+        #FastAPI
+      </div>
+      <div className="hidden xl:block absolute left-20 top-[42%] opacity-25 rotate-[8deg] font-mono text-xs border border-ink/40 px-2 py-1 select-none pointer-events-none">
+        #Zustand
+      </div>
+      <div className="hidden xl:block absolute left-12 top-[64%] opacity-15 rotate-[-4deg] font-mono text-xs border border-ink/40 px-2 py-1 select-none pointer-events-none">
+        #Electron
+      </div>
+      <div className="hidden xl:block absolute left-24 top-[84%] opacity-20 rotate-[12deg] font-mono text-xs border border-ink/40 px-2 py-1 select-none pointer-events-none">
+        #WebSockets
+      </div>
+
+      {/* ── BACKGROUND SCATTERED SKILLS (Right Margin) ──────────────── */}
+      <div className="hidden xl:block absolute right-16 top-[18%] opacity-25 rotate-[5deg] font-mono text-xs border border-ink/40 px-2 py-1 select-none pointer-events-none">
+        #Docker
+      </div>
+      <div className="hidden xl:block absolute right-10 top-[38%] opacity-20 rotate-[-7deg] font-mono text-xs border border-ink/40 px-2 py-1 select-none pointer-events-none">
+        #Ollama
+      </div>
+      <div className="hidden xl:block absolute right-24 top-[58%] opacity-30 rotate-[6deg] font-mono text-xs border border-ink/40 px-2 py-1 select-none pointer-events-none">
+        #PostgreSQL
+      </div>
+      <div className="hidden xl:block absolute right-12 top-[78%] opacity-15 rotate-[-10deg] font-mono text-xs border border-ink/40 px-2 py-1 select-none pointer-events-none">
+        #AsyncStorage
+      </div>
+
+      {/* ── LEFT FLOATING MASCOT: WAVING PIP ───────────────────────── */}
+      <div className="hidden xl:block absolute left-4 lg:left-8 top-[10%] w-32 h-32 z-20 select-none pip-mascot-container">
+        <div className="border-2 border-ink p-2 bg-[#FAF7F2] shadow-[4px_4px_0px_0px_rgba(13,13,13,1)] relative">
+          <div className="absolute -top-3 left-2 bg-[#E84B2A] text-white text-[7px] px-1.5 py-0.5 font-mono uppercase tracking-widest border border-ink">
+            Pip_v1.0
+          </div>
+          <img
+            src="/images/mascot/pip-waving.png"
+            alt="Pip Waving Mascot"
+            className="w-full h-full object-contain pip-mascot"
+          />
+        </div>
+      </div>
+
+      {/* ── RIGHT FLOATING MASCOT: READING PIP ──────────────────────── */}
+      <div className="hidden xl:block absolute right-4 lg:right-8 bottom-[10%] w-32 h-32 z-20 select-none pip-mascot-container">
+        <div className="border-2 border-ink p-2 bg-[#FAF7F2] shadow-[4px_4px_0px_0px_rgba(13,13,13,1)] relative">
+          <div className="absolute -top-3 left-2 bg-[#CAFF00] text-ink text-[7px] px-1.5 py-0.5 font-mono uppercase tracking-widest border border-ink font-bold">
+            Pip_Agent
+          </div>
+          <img
+            src="/images/mascot/pip-reading.png"
+            alt="Pip Reading Mascot"
+            className="w-full h-full object-contain pip-mascot"
+          />
+        </div>
+      </div>
+
+      {/* ── MAIN CONTENT CONTAINER ─────────────────────────────────── */}
       <div className="max-w-[1240px] mx-auto relative z-10">
         
         {/* Eyebrow & Main Section Header */}
