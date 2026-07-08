@@ -105,29 +105,95 @@ body {
 /* ── Section scroll offset ────────────────────────────────── */
 section { scroll-margin-top: 58px; }
 
-/* ── Project card hover ───────────────────────────────────── */
-.project-card { transition: background 0.2s, color 0.2s; }
+/* ── Project card hover & premium effects ───────────────── */
+.project-card {
+  position: relative;
+  transition: background-color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), color 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 8px; left: 8px; right: 8px; bottom: 8px;
+  border: 1px solid transparent;
+  pointer-events: none;
+  transition: border-color 0.3s ease;
+  z-index: 5;
+}
 .project-card:hover { background: #0D0D0D; color: #F5F0E8; }
+.project-card:hover::before { border-color: rgba(232, 75, 42, 0.22); } /* Faint orange diagnostic frame on hover */
 .project-card:hover .proj-desc  { color: #aaa; }
 .project-card:hover .proj-tag   { border-color: #444; color: #ccc; }
-.project-card:hover .proj-arrow { transform: translate(4px, -4px); }
-.proj-arrow { transition: transform 0.25s; }
+.project-card:hover .proj-arrow { transform: translate(4px, -4px) rotate(45deg); }
+.proj-arrow { transition: transform 0.25s ease; }
 
-/* ── Filter buttons ───────────────────────────────────────── */
+/* Image zoom & CRT scanline overlays */
+.card-img-container {
+  position: relative;
+  overflow: hidden;
+}
+.card-img-container img {
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+.project-card:hover .card-img-container img {
+  transform: scale(1.05);
+}
+.card-img-container::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  z-index: 10;
+}
+.project-card:hover .card-img-container::after {
+  opacity: 0.35; /* Fades in CRT scanning rows on hover */
+}
+
+/* Giant background outline numbers */
+.proj-num {
+  -webkit-text-stroke: 1px rgba(13, 13, 13, 0.05);
+  color: transparent;
+  z-index: 1;
+  transition: -webkit-text-stroke 0.3s ease, transform 0.3s ease;
+}
+.project-card:hover .proj-num {
+  -webkit-text-stroke: 1px rgba(245, 240, 232, 0.12);
+  transform: translateY(-6px);
+}
+
+/* ── Upgraded tactile filter buttons ─────────────────────── */
 .filter-btn {
   font-family: 'Space Mono', monospace;
   font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  padding: 0.4rem 0.9rem;
+  padding: 0.45rem 1rem;
   border: 2px solid #0D0D0D;
   background: transparent;
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  box-shadow: 2px 2px 0px 0px #0D0D0D;
+  transition: transform 0.1s, box-shadow 0.1s, background-color 0.15s, color 0.15s;
 }
-.filter-btn:hover   { background: #EDEAE0; }
-.filter-btn.active  { background: #0D0D0D; color: #CAFF00; }
-.filter-btn.active-secondary { background: #E84B2A; color: #fff; border-color: #E84B2A; }
+.filter-btn:hover { background: #EDEAE0; }
+.filter-btn.active {
+  background: #0D0D0D;
+  color: #CAFF00;
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px 0px #0D0D0D;
+}
+.filter-btn.active-secondary {
+  background: #E84B2A;
+  color: #fff;
+  border-color: #E84B2A;
+  transform: translate(2px, 2px);
+  box-shadow: 0px 0px 0px 0px #0D0D0D;
+}
 
 /* ── About timeline dot ───────────────────────────────────── */
 .timeline-dot {

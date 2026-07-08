@@ -20,7 +20,7 @@ const PAPER_LABELS = {
 export default function ProjectCard({ project }) {
   const {
     title, description, tech, github, liveUrl, image,
-    featured, caseStudyUrl, paperStatus, paperUrl,
+    featured, caseStudyUrl, paperStatus, paperUrl, category,
   } = project
 
   const paperLabel = PAPER_LABELS[paperStatus] || null
@@ -28,10 +28,10 @@ export default function ProjectCard({ project }) {
   /* ── Featured card ─────────────────────────────────────── */
   if (featured) {
     return (
-      <div className="project-card lg:col-span-2 border-brutal-b border-brutal-r flex flex-col md:flex-row">
+      <div className="project-card lg:col-span-2 border-brutal-b border-brutal-r flex flex-col md:flex-row relative overflow-hidden group">
 
         {/* Image — left half */}
-        <div className="relative md:w-[45%] h-56 md:h-auto overflow-hidden border-brutal-b md:border-brutal-b-0 md:border-brutal-r bg-surface flex-shrink-0">
+        <div className="card-img-container relative md:w-[45%] h-56 md:h-auto overflow-hidden border-brutal-b md:border-brutal-b-0 md:border-brutal-r bg-surface flex-shrink-0">
           <img
             src={image}
             alt={`${title} screenshot`}
@@ -39,13 +39,13 @@ export default function ProjectCard({ project }) {
             onError={(e) => { e.target.style.display = 'none' }}
           />
           {/* Featured badge */}
-          <div className="absolute top-3 left-3 bg-ink text-acid font-mono text-[0.6rem] uppercase tracking-widest px-2 py-1">
+          <div className="absolute top-3 left-3 bg-ink text-acid font-mono text-[0.6rem] uppercase tracking-widest px-2 py-1 z-20">
             ★ Featured
           </div>
         </div>
 
         {/* Content — right half */}
-        <div className="flex flex-col justify-between p-8 flex-1">
+        <div className="flex flex-col justify-between p-8 flex-1 relative z-10">
           <div>
             {/* Tech tags */}
             <div className="flex flex-wrap gap-2 mb-4">
@@ -78,7 +78,7 @@ export default function ProjectCard({ project }) {
                 href={caseStudyUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-between w-full px-4 py-3 mb-6 border-2 border-ink hover:bg-acid transition-colors"
+                className="flex items-center justify-between w-full px-4 py-3 mb-6 border-2 border-ink hover:bg-acid hover:text-ink transition-colors"
               >
                 <span className="font-mono text-[0.7rem] uppercase tracking-widest">
                   Read case study
@@ -89,10 +89,10 @@ export default function ProjectCard({ project }) {
           </div>
 
           {/* Action buttons */}
-          <div className="flex flex-wrap gap-3">
+          <div className="flex flex-wrap gap-3 z-20">
             {liveUrl && (
               <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="btn-ink text-[0.65rem]">
-                Live Site ↗
+                {category && category.includes('Mobile') ? 'Download App' : 'Live Site'} ↗
               </a>
             )}
             {github && (
@@ -107,16 +107,21 @@ export default function ProjectCard({ project }) {
             )}
           </div>
         </div>
+
+        {/* Large Decorative Hollow Number */}
+        <span className="proj-num font-display font-extrabold text-[8rem] sm:text-[10rem] leading-none pointer-events-none select-none absolute bottom-[-15px] right-2">
+          {String(project.id).padStart(2, '0')}
+        </span>
       </div>
     )
   }
 
   /* ── Regular card ──────────────────────────────────────── */
   return (
-    <div className="project-card border-brutal-b border-brutal-r flex flex-col">
+    <div className="project-card border-brutal-b border-brutal-r flex flex-col relative overflow-hidden group">
 
       {/* Image */}
-      <div className="relative h-44 overflow-hidden border-brutal-b bg-surface flex-shrink-0">
+      <div className="card-img-container relative h-44 overflow-hidden border-brutal-b bg-surface flex-shrink-0">
         <img
           src={image}
           alt={`${title} screenshot`}
@@ -126,7 +131,7 @@ export default function ProjectCard({ project }) {
       </div>
 
       {/* Content */}
-      <div className="flex flex-col flex-1 p-6">
+      <div className="flex flex-col flex-1 p-6 relative z-10">
         {/* Tech tags */}
         <div className="flex flex-wrap gap-2 mb-4">
           {tech.map((tag) => (
@@ -148,10 +153,10 @@ export default function ProjectCard({ project }) {
         </p>
 
         {/* Buttons */}
-        <div className="flex flex-wrap gap-3 mt-auto">
+        <div className="flex flex-wrap gap-3 mt-auto z-20">
           {liveUrl && (
             <a href={liveUrl} target="_blank" rel="noopener noreferrer" className="btn-ink text-[0.65rem]">
-              Live Site ↗
+              {category && category.includes('Mobile') ? 'Download App' : 'Live Site'} ↗
             </a>
           )}
           {github && (
@@ -171,6 +176,11 @@ export default function ProjectCard({ project }) {
           )}
         </div>
       </div>
+
+      {/* Large Decorative Hollow Number */}
+      <span className="proj-num font-display font-extrabold text-[6.5rem] sm:text-[7.5rem] leading-none pointer-events-none select-none absolute bottom-[-10px] right-2">
+        {String(project.id).padStart(2, '0')}
+      </span>
     </div>
   )
 }
