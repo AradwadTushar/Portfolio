@@ -11,7 +11,7 @@ import ProjectCard from '../ui/ProjectCard.jsx'
  */
 
 const CATEGORIES = ['All', 'Web', 'Mobile', 'AI', 'Desktop']
-const TECH_TAGS   = ['All', 'React', 'Node.js', 'Python', 'AI/ML', 'Electron']
+const TECH_TAGS   = ['All', 'React', 'React Native', 'Node.js', 'Python', 'AI/ML', 'Electron']
 
 export default function Projects() {
   const [activeCategory, setActiveCategory] = useState('All')
@@ -19,7 +19,8 @@ export default function Projects() {
 
   const filteredProjects = useMemo(() => {
     return projects.filter((p) => {
-      const catMatch  = activeCategory === 'All' || p.category === activeCategory
+      const catMatch  = activeCategory === 'All' || 
+        (Array.isArray(p.category) ? p.category.includes(activeCategory) : p.category === activeCategory)
       const techMatch = activeTech     === 'All' || p.tech.includes(activeTech)
       return catMatch && techMatch
     })

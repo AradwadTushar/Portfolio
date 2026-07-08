@@ -36,26 +36,26 @@ const projects = [
     title: "NutriLens",
     description:
       "AI-powered food label analyzer that extracts and summarizes product ingredients using OCR and LLMs for better dietary insights.",
-    category: "AI",
+    category: ["AI", "Web"],
     tech: ["React", "AI/ML", "OCR", "JavaScript", "Python"],
-    github: "https://github.com/AradwadTushar/NutriLens---An-Ingredient-Scanner-", // ← replace with real URL
+    github: "https://github.com/AradwadTushar/NutriLens---An-Ingredient-Scanner-",
     liveUrl: "https://drive.google.com/file/d/1nmPrRFSIGwnWIaKynPd3_0XXLAPOZJ8t/view?usp=drive_link",
-    image: "/images/projects/nutrilens.jpg",     // ← add your screenshot here
+    image: "/images/projects/nutrilens.jpg",
     featured: true,
-    caseStudyUrl: "https://drive.google.com/file/d/1ySgw6A2Jm1yFiffbgImRvOrUp0wekvWw/view?usp=sharing", // ← replace with your real Google Drive link
-    paperStatus: "drafting",                      // "drafting" | "submitted" | "published" | null
-    paperUrl: "https://drive.google.com/file/d/1ySgw6A2Jm1yFiffbgImRvOrUp0wekvWw/view?usp=drive_link",                               // only needed when paperStatus = "published"
+    caseStudyUrl: "https://drive.google.com/file/d/1ySgw6A2Jm1yFiffbgImRvOrUp0wekvWw/view?usp=sharing",
+    paperStatus: "drafting",
+    paperUrl: "https://drive.google.com/file/d/1ySgw6A2Jm1yFiffbgImRvOrUp0wekvWw/view?usp=drive_link",
   },
   {
     id: 2,
     title: "Salon Management App",
     description:
       "Desktop application for managing salon billing, services, and customer communication through an integrated dashboard.",
-    category: "Desktop",
+    category: ["Desktop"],
     tech: ["Electron", "JavaScript", "Node.js"],
-   github: "https://github.com/AradwadTushar/Salon-Management-App", // ← replace with real URL
+    github: "https://github.com/AradwadTushar/Salon-Management-App",
     liveUrl: null,
-    image: "/images/projects/salon-app.jpg",     // ← add your screenshot here
+    image: "/images/projects/salon-app.jpg",
     featured: false,
   },
   {
@@ -63,7 +63,7 @@ const projects = [
     title: "ResumeIQ AI",
     description:
       "AI-powered resume builder, ATS optimization & analytics engine featuring a live document editor, Jinja2/WeasyPrint rendering, and local PDF parsing.",
-    category: "AI",
+    category: ["AI", "Web"],
     tech: ["React", "Python", "AI/ML", "FastAPI", "PostgreSQL", "Clerk"],
     github: "https://github.com/AradwadTushar/AI-Based-Resume-Builder-and-Analyzer",
     liveUrl: "https://resumeiq-ai.pages.dev/",
@@ -76,12 +76,25 @@ const projects = [
     title: "E-Commerce Storefront",
     description:
       "A clean, modern e-commerce storefront with product filtering, dynamic cart management, and interactive checkout systems.",
-    category: "Web",
+    category: ["Web"],
     tech: ["React", "Node.js", "JavaScript"],
     github: "https://github.com/AradwadTushar/E-commerse",
     liveUrl: null,
     image: "/images/projects/ecommerce.jpg",
     featured: false,
+  },
+  {
+    id: 5,
+    title: "StudyTracker",
+    description:
+      "Offline-first React Native (Expo) study management app for competitive exams featuring syllabus parsing, state-aware AI study companion (Pip), and local quizzes.",
+    category: ["Mobile", "AI"],
+    tech: ["React Native", "Expo", "Zustand", "AsyncStorage", "KaTeX"],
+    github: "https://github.com/AradwadTushar/StudyTracker",
+    liveUrl: "https://drive.google.com/file/d/13je_EfqXosmHbDmci_me22YbBX5cHMBO/view?usp=drivesdk",
+    image: "/images/projects/studytracker.jpg",
+    featured: false,
+    caseStudyUrl: "https://drive.google.com/file/d/1in--yRFxUlP-XP8OUxcN-6-QzA-OpHrz/view?usp=drive_link",
   },
 ]
 
