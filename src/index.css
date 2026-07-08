@@ -468,3 +468,9 @@ section { scroll-margin-top: 58px; }
 .matrix-scan-line {
   animation: scan-matrix 6s linear infinite;
 }
+
+/* Blueprint-style dotted grid background for projects section */
+.projects-grid-bg {
+  background-image: radial-gradient(rgba(13, 13, 13, 0.08) 1.2px, transparent 1.2px);
+  background-size: 20px 20px;
+}

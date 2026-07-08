@@ -6,7 +6,7 @@ import ProjectCard from '../ui/ProjectCard.jsx';
  * Projects
  * ─────────────────────────────────────────────────────────────
  * Restructured premium two-tier layout:
- * - Tier 1: Case Studies (Vertical Grid, showing shipped + documented work)
+ * - Tier 1: Case Studies (Vertical Grid + Full-Width Horizontal layout)
  * - Tier 2: Other Builds (Accordion list, showing secondary/open-source tools)
  */
 export default function Projects() {
@@ -21,8 +21,8 @@ export default function Projects() {
   };
 
   return (
-    <section id="projects" className="border-brutal-b py-20 px-6 sm:px-8 lg:px-12 bg-[#F5F0E8]">
-      <div className="max-w-[1100px] mx-auto">
+    <section id="projects" className="border-brutal-b py-20 px-6 sm:px-8 lg:px-12 bg-[#F5F0E8] projects-grid-bg relative">
+      <div className="max-w-[1240px] mx-auto relative z-10">
         
         {/* Eyebrow & Main Section Header */}
         <div className="mb-14">
@@ -36,7 +36,7 @@ export default function Projects() {
         </div>
 
         {/* ── TIER 1: CASE STUDIES ───────────────────────────────── */}
-        <div className="mb-20">
+        <div className="mb-24">
           <div className="flex align-baseline justify-between border-b-2 border-ink pb-3 mb-6 select-none">
             <h3 className="font-mono text-[12px] uppercase tracking-wider font-bold text-ink flex items-center gap-2">
               <span className="pulse-dot h-2 w-2" style={{ background: '#E84B2A' }} />
@@ -47,17 +47,18 @@ export default function Projects() {
             </span>
           </div>
 
-          {/* Grid Layout: Top 2 side-by-side, remaining 1 full-width */}
+          {/* Grid Layout: Top 2 side-by-side (Vertical) */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
             {caseStudies.slice(0, 2).map((project) => (
-              <ProjectCard key={project.id} project={project} />
+              <ProjectCard key={project.id} project={project} layout="vertical" />
             ))}
           </div>
 
+          {/* Solo: Bottom project (Horizontal to prevent vertical stretching) */}
           {caseStudies.length > 2 && (
             <div className="grid grid-cols-1 gap-6">
               {caseStudies.slice(2).map((project) => (
-                <ProjectCard key={project.id} project={project} />
+                <ProjectCard key={project.id} project={project} layout="horizontal" />
               ))}
             </div>
           )}
