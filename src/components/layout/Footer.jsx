@@ -13,7 +13,7 @@ export default function Footer() {
           {[
             { label: 'GitHub',   href: 'https://github.com/AradwadTushar' },
             { label: 'LinkedIn', href: 'https://www.linkedin.com/in/tushar-aradwad-536570307/' },
-            { label: 'Email',    href: 'mailto:aradwadtushar29@gmail.com' },
+            { label: 'Email',    href: 'mailto:aradwadtushar72@gmail.com' },
           ].map(({ label, href }) => (
             <a
               key={label}

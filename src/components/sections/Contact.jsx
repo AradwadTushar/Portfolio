@@ -9,7 +9,7 @@
 const SOCIALS = [
   { label: 'GitHub',   href: 'https://github.com/AradwadTushar',                              handle: '@AradwadTushar' },
   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/tushar-aradwad-536570307/',         handle: 'tushar-aradwad' },
-  { label: 'Email',    href: 'mailto:aradwadtushar29@gmail.com',                               handle: 'aradwadtushar29@gmail.com' },
+  { label: 'Email',    href: 'mailto:aradwadtushar72@gmail.com',                               handle: 'aradwadtushar72@gmail.com' },
 ]
 
 export default function Contact() {
@@ -39,7 +39,7 @@ export default function Contact() {
           </div>
 
           <a
-            href="mailto:aradwadtushar29@gmail.com"
+            href="mailto:aradwadtushar72@gmail.com"
             className="self-start font-mono text-[0.75rem] uppercase tracking-widest bg-acid text-ink px-6 py-3 border-2 border-acid hover:bg-rust hover:border-rust hover:text-white transition-all"
           >
             Send a message →
@@ -79,7 +79,7 @@ export default function Contact() {
 
           {/* Footer note */}
           <p className="font-mono text-label uppercase tracking-widest text-[#bbb]">
-            Based in Nagpur, India &nbsp;·&nbsp; Open to remote
+            Based in Pune, India &nbsp;·&nbsp; Open to remote
           </p>
         </div>
       </div>

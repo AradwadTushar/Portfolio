@@ -32,6 +32,19 @@
 
 const projects = [
   {
+    id: 7,
+    title: "Brand Guardian AI",
+    description:
+      "Enterprise multimodal video compliance engine that audits marketing content against brand guidelines, FTC mandates, and platform ad specs using Azure Video Indexer, LangGraph DAGs, and GPT-4o.",
+    category: ["AI", "Web"],
+    tech: ["Python", "LangGraph", "FastAPI", "Azure OpenAI", "Azure AI Search", "React"],
+    github: "https://github.com/AradwadTushar/langgraph-video-auditor",
+    liveUrl: "https://drive.google.com/file/d/1IfOh9tgOWX-rfJrcTSTBQI7dtiS7Mal8/view?usp=sharing",
+    image: "/images/projects/brand-guardian.png",
+    featured: true,
+    caseStudyUrl: "https://github.com/AradwadTushar/langgraph-video-auditor/blob/main/README.md",
+  },
+  {
     id: 1,
     title: "NutriLens",
     description:
@@ -41,7 +54,7 @@ const projects = [
     github: "https://github.com/AradwadTushar/NutriLens---An-Ingredient-Scanner-",
     liveUrl: "https://drive.google.com/file/d/1nmPrRFSIGwnWIaKynPd3_0XXLAPOZJ8t/view?usp=drive_link",
     image: "/images/projects/nutrilens.jpg",
-    featured: true,
+    featured: false,
     caseStudyUrl: "https://drive.google.com/file/d/1ySgw6A2Jm1yFiffbgImRvOrUp0wekvWw/view?usp=sharing",
     paperStatus: "drafting",
     paperUrl: "https://drive.google.com/file/d/1ySgw6A2Jm1yFiffbgImRvOrUp0wekvWw/view?usp=drive_link",

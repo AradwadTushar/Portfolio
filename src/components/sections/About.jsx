@@ -16,8 +16,8 @@ const TIMELINE = [
 
 const STATS = [
   { num: 'B.Tech IT', label: 'Graduated Aug 2025' },
-  { num: '21',        label: 'Years old (soon 22)' },
-  { num: '5+',        label: 'Apps shipped'        },
+  { num: '22',        label: 'Years old'           },
+  { num: '6+',        label: 'Apps shipped'        },
   { num: '∞',         label: 'Stack experiments'   },
 ]
 
@@ -45,7 +45,7 @@ export default function About() {
               <span className="text-rust">I build to get there."</span>
             </p>
             <p className="font-mono text-body-sm text-[#666] max-w-sm leading-relaxed">
-              Most 21-year-olds are still figuring out what they want to do.
+              Most 22-year-olds are still figuring out what they want to do.
               I already know — build things that are genuinely useful, ship them,
               and learn what textbooks can't teach.
             </p>
@@ -59,7 +59,7 @@ export default function About() {
             <div>
               <p className="font-display font-bold text-lg text-ink leading-tight">Tushar Aradwad</p>
               <p className="font-mono text-label uppercase tracking-widest text-[#888]">
-                Full-Stack · AI/ML · Nagpur, India
+                Full-Stack · AI/ML · Pune, India
               </p>
             </div>
           </div>

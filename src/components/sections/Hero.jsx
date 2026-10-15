@@ -99,7 +99,7 @@ export default function Hero() {
 
             {/* Tagline */}
             <p className="font-mono text-body-sm text-[#555] max-w-sm leading-relaxed border-l-[3px] border-rust pl-4 mb-10">
-              21, B.Tech IT grad. I don't just learn tech —
+              22, B.Tech IT grad. I don't just learn tech —
               I build with it. Full-stack meets AI meets
               curiosity that refuses to stay in one lane.
             </p>
@@ -118,7 +118,7 @@ export default function Hero() {
 
           {/* Footer */}
           <p className="font-mono text-label uppercase tracking-widest text-[#999] mt-10">
-            Nagpur, India &nbsp;·&nbsp; Full-Stack + AI/ML
+            Pune, India &nbsp;·&nbsp; Full-Stack + AI/ML
           </p>
         </div>
 
@@ -335,7 +335,7 @@ export default function Hero() {
       <div className="grid grid-cols-1 sm:grid-cols-3 border-brutal-b">
         {[
           {
-            num: '5+',
+            num: '6+',
             label: 'Projects shipped',
           },
           {
