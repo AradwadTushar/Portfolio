@@ -28,7 +28,8 @@ export default {
         "label":      ["0.68rem",                   { lineHeight: "1.0",  letterSpacing: "0.12em",  fontWeight: "400" }],
       },
       maxWidth: {
-        container: "1200px",
+        container: "1440px",
+        master: "1520px",
       },
       borderWidth: {
         DEFAULT: "2px",

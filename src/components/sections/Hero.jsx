@@ -1,65 +1,68 @@
 /**
- * Hero
+ * Hero.jsx
  * ─────────────────────────────────────────────────────────────
- * Two-column brutalist layout
+ * Brutalist editorial hero section.
+ * Responsive across mobile, laptops, and ultra-wide displays.
+ * Features:
+ * - High-impact responsive typography
+ * - Up-to-date active tech stack categorized by capability
+ * - Interactive Cyber Dashboard (Node Matrix, Stream Logs, Tech Radar)
+ * - 4-column balanced telemetry stats bar
  */
 
-import { useEffect, useState, useRef, useCallback } from 'react'
-import NeuralSignature from '../ui/NeuralSignature.jsx'
+import { useEffect, useState, useRef, useCallback } from 'react';
+import NeuralSignature from '../ui/NeuralSignature.jsx';
+import { openResume } from '../../utils/mediaViewer.js';
 
-const STACK = [
-  { label: 'Electron', active: true },
-  { label: 'React', active: false },
-  { label: 'Node.js', active: false },
-  { label: 'Python', active: true },
-  { label: 'SQLite', active: false },
-  { label: 'TypeScript', active: false },
-  { label: 'Claude API', active: true },
-  { label: 'GPT-4o', active: false },
-  { label: 'Gemini', active: false },
-  { label: 'Ollama', active: true },
-  { label: 'FastAPI', active: false },
-  { label: 'OCR', active: false },
-]
+const STACK_CATEGORIES = [
+  {
+    category: 'AI & Agents',
+    items: ['LangGraph', 'Azure OpenAI', 'GPT-4o', 'FastAPI', 'PaddleOCR', 'Vector RAG'],
+    badge: 'Core Focus',
+  },
+  {
+    category: 'Full-Stack & Mobile',
+    items: ['React 18', 'Next.js', 'React Native (Expo)', 'Node.js', 'Electron', 'PostgreSQL'],
+    badge: 'Production',
+  },
+  {
+    category: 'Systems & Tooling',
+    items: ['Zustand', 'Docker', 'SQLite', 'WebSockets', 'OpenTelemetry', 'WeasyPrint'],
+    badge: 'Runtime',
+  },
+];
 
 const MARQUEE_ITEMS = [
-  'Builder',
-  'AI Tools',
-  'Full-Stack',
-  'Desktop Apps',
+  'Autonomous AI Agents',
+  'LangGraph',
+  'Full-Stack Systems',
+  'React Native',
+  'Desktop POS',
+  'Multimodal OCR',
   'Open Source',
-  'Experimenter',
-]
-
-const LOG_POOL = [
-  '> training OCR parser...',
-  '> testing embeddings...',
-  '> syncing websocket nodes...',
-  '> loading local models...',
-  '> inference pipeline ready...',
-  '> vector cache warmed...',
-  '> websocket stable...',
-  '> loading embeddings...',
-  '> OCR confidence: 98%...',
-  '> inference graph compiled...',
-  '> initializing AI runtime...',
-  '> local models online...',
-]
+  'Vector RAG',
+];
 
 export default function Hero() {
-  const [activeTab, setActiveTab] = useState('matrix')
-  const [radarInfo, setRadarInfo] = useState(null)
+  const [activeTab, setActiveTab] = useState('matrix');
+  const [activeStackCategory, setActiveStackCategory] = useState(0);
+  const [radarInfo, setRadarInfo] = useState(null);
   const [terminalLogs, setTerminalLogs] = useState([
-    '[INIT] initializing AI runtime...',
-    '[INIT] local models online...',
-    '[INIT] inference pipeline ready...',
-  ])
-  
-  const logContainerRef = useRef(null)
+    '[INIT] LangGraph orchestration runtime online...',
+    '[INIT] Azure Video Indexer OCR pipeline synchronized...',
+    '[INIT] Vector RAG & regulatory embeddings active...',
+    '[INFO] XERJ Corpus Hub contributor pipeline verified...',
+  ]);
+
+  const logContainerRef = useRef(null);
 
   const handleLogAdded = useCallback((logText) => {
     setTerminalLogs((prev) => {
-      const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      const timestamp = new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+      });
       return [...prev.slice(-14), `[${timestamp}] ${logText}`];
     });
   }, []);
@@ -76,119 +79,182 @@ export default function Hero() {
 
   return (
     <>
-      {/* ── HERO ───────────────────────────────────────── */}
+      {/* ── HERO GRID ───────────────────────────────────────── */}
       <section
         id="home"
-        className="mt-[58px] grid grid-cols-1 lg:grid-cols-2 border-brutal-b min-h-[calc(100vh-58px)]"
+        className="mt-[58px] grid grid-cols-1 lg:grid-cols-2 border-brutal-b min-h-[calc(100vh-58px)] bg-[#F5F0E8] w-full"
       >
-        {/* LEFT */}
-        <div className="flex flex-col justify-between p-6 sm:p-8 lg:p-12 border-brutal-b lg:border-brutal-b-0 lg:border-brutal-r">
+        {/* LEFT COLUMN: IDENT & VALUE PROP */}
+        <div className="flex flex-col justify-between p-8 sm:p-12 lg:p-16 2xl:p-24 border-brutal-b lg:border-brutal-b-0 lg:border-brutal-r bg-[#FAF7F2]">
           <div>
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 bg-ink text-acid font-mono text-label uppercase tracking-widest px-3 py-1.5 mb-8">
-              <span className="pulse-dot" />
-              Available for work
+            {/* Status & Availability Badges */}
+            <div className="flex flex-wrap items-center gap-2.5 mb-8">
+              <div className="inline-flex items-center gap-2 bg-ink text-[#CAFF00] font-mono text-[10px] uppercase tracking-widest px-3 py-1.5 border border-ink shadow-[2px_2px_0px_0px_rgba(232,75,42,1)]">
+                <span className="pulse-dot" />
+                <span>Available for work</span>
+              </div>
+
+              <a
+                href="https://hub.xerj.org/contributors/AradwadTushar"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-wider text-[#555] hover:text-ink bg-[#EDEAE0] px-2.5 py-1.5 border border-ink/20 transition-colors"
+                title="Verified XERJ Corpus Hub AI Contributor"
+              >
+                <span className="text-rust font-bold">✦</span>
+                <span>XERJ AI Contributor</span>
+              </a>
             </div>
 
-            {/* Name */}
-            <h1 className="font-display font-extrabold text-[4rem] sm:text-[5rem] lg:text-display-xl text-ink mb-6 leading-none break-words">
+            {/* Display Headline */}
+            <h1 className="font-display font-extrabold text-[3.8rem] sm:text-[4.8rem] lg:text-[4.5rem] xl:text-[5.5rem] 2xl:text-[6.5rem] text-ink mb-6 leading-[0.92] tracking-tight">
               Tushar
               <br />
               <span className="text-rust">Aradwad.</span>
             </h1>
 
-            {/* Tagline */}
-            <p className="font-mono text-body-sm text-[#555] max-w-sm leading-relaxed border-l-[3px] border-rust pl-4 mb-10">
-              22, B.Tech IT grad. I don't just learn tech —
-              I build with it. Full-stack meets AI meets
-              curiosity that refuses to stay in one lane.
-            </p>
+            {/* Sub-headline & Bio */}
+            <div className="max-w-xl 2xl:max-w-2xl space-y-4 mb-10">
+              <p className="font-display font-bold text-lg sm:text-xl text-ink leading-snug">
+                Full-Stack Engineer & AI Systems Developer.
+              </p>
+              <p className="font-mono text-xs sm:text-sm text-[#555] leading-relaxed border-l-2 border-rust pl-4">
+                22, B.Tech IT graduate from Pune. I architect and ship end-to-end software: autonomous LangGraph DAGs, multimodal OCR pipelines, offline-first mobile apps, and high-performance desktop POS systems.
+              </p>
+            </div>
 
-            {/* CTA */}
-            <div className="flex flex-wrap gap-3">
-              <a href="#projects" className="btn-ink">
-                See my work →
+            {/* Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href="#projects"
+                className="btn-ink px-6 py-3.5 text-xs font-bold shadow-[3px_3px_0px_0px_rgba(13,13,13,1)] hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px]"
+              >
+                <span>See Shipped Work</span>
+                <span>→</span>
               </a>
 
-              <a href="#contact" className="btn-ghost">
-                Let&apos;s talk
+              <button
+                onClick={openResume}
+                className="btn-ghost px-5 py-3.5 text-xs font-bold border-2 border-ink bg-transparent hover:bg-[#CAFF00] hover:text-ink transition-colors flex items-center gap-1.5"
+                title="Preview Resume PDF inline"
+              >
+                <span>Resume (PDF)</span>
+                <span>↗</span>
+              </button>
+
+              <a
+                href="#contact"
+                className="btn-ghost px-6 py-3.5 text-xs font-bold border-2 border-ink bg-transparent hover:bg-ink hover:text-[#CAFF00]"
+              >
+                <span>Let&apos;s Talk</span>
+                <span>↗</span>
               </a>
             </div>
           </div>
 
-          {/* Footer */}
-          <p className="font-mono text-label uppercase tracking-widest text-[#999] mt-10">
-            Pune, India &nbsp;·&nbsp; Full-Stack + AI/ML
-          </p>
+          {/* Left Footer Telemetry */}
+          <div className="pt-8 mt-10 border-t border-ink/15 flex flex-wrap items-center justify-between gap-3 font-mono text-[11px] text-[#777]">
+            <span className="uppercase tracking-widest">Pune, India · IST (UTC+5:30)</span>
+            <span className="text-rust font-bold">Ranked Top 8% Intern @ DevTown</span>
+          </div>
         </div>
 
-        {/* RIGHT */}
-        <div className="flex flex-col min-w-0 h-full">
-          {/* Stack */}
-          <div className="p-8 lg:p-12 border-brutal-b">
-            <p className="font-mono text-label uppercase tracking-widest text-[#888] mb-5">
-              What I build with
-            </p>
+        {/* RIGHT COLUMN: TECH STACK & SYSTEM CYBER DASHBOARD */}
+        <div className="flex flex-col justify-between bg-[#F5F0E8] min-w-0">
+          
+          {/* ── MODERN TECH STACK MATRIX ──────────────────────────── */}
+          <div className="p-6 sm:p-8 xl:p-10 border-brutal-b bg-[#FAF7F2]">
+            <div className="flex items-center justify-between mb-4 select-none">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-[#777] font-bold">
+                Active Engineering Stack
+              </span>
+              <span className="font-mono text-[9px] text-rust uppercase tracking-wider">
+                Production Verified
+              </span>
+            </div>
 
-            <div className="flex flex-wrap gap-2">
-              {STACK.map(({ label, active }) => (
-                <span
-                  key={label}
-                  className={`stack-pill ${active ? 'active' : ''}`}
+            {/* Category Selector Tabs */}
+            <div className="flex gap-1.5 mb-4 border-b border-ink/15 pb-2 overflow-x-auto select-none">
+              {STACK_CATEGORIES.map((cat, idx) => (
+                <button
+                  key={cat.category}
+                  onClick={() => setActiveStackCategory(idx)}
+                  className={`font-mono text-[10px] uppercase tracking-wider px-2.5 py-1 border transition-all whitespace-nowrap ${
+                    activeStackCategory === idx
+                      ? 'bg-ink text-[#CAFF00] border-ink font-bold'
+                      : 'bg-[#EDEAE0] text-[#666] border-ink/20 hover:text-ink'
+                  }`}
                 >
-                  {label}
+                  {cat.category}
+                </button>
+              ))}
+            </div>
+
+            {/* Dynamic Categorized Tags */}
+            <div className="flex flex-wrap gap-2">
+              {STACK_CATEGORIES[activeStackCategory].items.map((tech) => (
+                <span
+                  key={tech}
+                  className="font-mono text-xs uppercase tracking-wider bg-[#EDEAE0] border-2 border-ink px-2.5 py-1 font-bold text-ink shadow-[2px_2px_0px_0px_rgba(13,13,13,0.1)] hover:bg-[#CAFF00] hover:text-ink transition-colors cursor-default"
+                >
+                  {tech}
                 </span>
               ))}
             </div>
           </div>
 
-          {/* SYSTEM PANEL - CYBER DASHBOARD */}
-          <div className="flex-1 p-6 sm:p-8 flex flex-col justify-center bg-[#FAF7F2]">
-            <div className="border-2 border-ink bg-surface flex flex-col h-full min-h-[360px] relative shadow-[4px_4px_0px_0px_rgba(13,13,13,1)]">
+          {/* ── SYSTEM CYBER DASHBOARD ────────────────────────────── */}
+          <div className="p-6 sm:p-8 xl:p-10 flex-1 flex flex-col justify-center">
+            <div className="border-2 border-ink bg-[#FAF7F2] flex flex-col h-[360px] sm:h-[400px] xl:h-[420px] relative shadow-[4px_4px_0px_0px_rgba(13,13,13,1)] overflow-hidden">
+              
               {/* Terminal Title Bar */}
-              <div className="bg-ink text-surface px-4 py-2.5 flex items-center justify-between font-mono text-[10px] border-b-2 border-ink select-none">
+              <div className="bg-ink text-white px-4 py-2.5 flex items-center justify-between font-mono text-[10px] border-b-2 border-ink select-none flex-shrink-0">
                 <div className="flex items-center gap-2">
                   <span className="pulse-dot bg-[#CAFF00]" />
-                  <span className="tracking-widest">SYSTEM CORE ACTIVE</span>
+                  <span className="tracking-widest">SYSTEM TELEMETRY ENGINE</span>
                 </div>
-                <span className="text-[#666]">v2.5.0_PROD</span>
+                <span className="text-[#888]">v3.2.0_SYS</span>
               </div>
 
-              {/* Sub-tabs for switching views */}
-              <div className="flex border-b-2 border-ink bg-[#EDEAE0] select-none">
+              {/* Sub-tabs */}
+              <div className="flex border-b-2 border-ink bg-[#EDEAE0] select-none flex-shrink-0 font-mono text-[10px]">
                 <button
                   onClick={() => setActiveTab('matrix')}
-                  className={`flex-1 py-2 font-mono text-[10px] uppercase tracking-wider border-r-2 border-ink transition-all ${
-                    activeTab === 'matrix' ? 'bg-[#CAFF00] text-ink font-bold' : 'hover:bg-[#EAE5D9] text-[#555]'
+                  className={`flex-1 py-2 uppercase tracking-wider border-r-2 border-ink transition-all ${
+                    activeTab === 'matrix' ? 'bg-[#CAFF00] text-ink font-bold' : 'hover:bg-[#EAE5D9] text-[#666]'
                   }`}
                 >
                   01. Node Matrix
                 </button>
                 <button
                   onClick={() => setActiveTab('logs')}
-                  className={`flex-1 py-2 font-mono text-[10px] uppercase tracking-wider border-r-2 border-ink transition-all ${
-                    activeTab === 'logs' ? 'bg-[#CAFF00] text-ink font-bold' : 'hover:bg-[#EAE5D9] text-[#555]'
+                  className={`flex-1 py-2 uppercase tracking-wider border-r-2 border-ink transition-all ${
+                    activeTab === 'logs' ? 'bg-[#CAFF00] text-ink font-bold' : 'hover:bg-[#EAE5D9] text-[#666]'
                   }`}
                 >
                   02. Log Stream
                 </button>
                 <button
                   onClick={() => setActiveTab('radar')}
-                  className={`flex-1 py-2 font-mono text-[10px] uppercase tracking-wider transition-all ${
-                    activeTab === 'radar' ? 'bg-[#CAFF00] text-ink font-bold' : 'hover:bg-[#EAE5D9] text-[#555]'
+                  className={`flex-1 py-2 uppercase tracking-wider transition-all ${
+                    activeTab === 'radar' ? 'bg-[#CAFF00] text-ink font-bold' : 'hover:bg-[#EAE5D9] text-[#666]'
                   }`}
                 >
                   03. Tech Radar
                 </button>
               </div>
 
-              {/* Dynamic Workspace Container */}
-              <div className={`flex-1 relative overflow-hidden p-4 flex items-center justify-center min-h-[260px] transition-colors duration-300 ${activeTab === 'matrix' ? 'bg-[#0D0D0D]' : 'bg-[#FAF7F2]'}`}>
+              {/* Dynamic Viewport */}
+              <div
+                className={`flex-1 relative overflow-hidden p-3 flex items-center justify-center transition-colors duration-300 ${
+                  activeTab === 'matrix' ? 'bg-[#0D0D0D]' : 'bg-[#FAF7F2]'
+                }`}
+              >
                 <div className="scanlines" />
                 <div className="noise" />
 
-                {/* MATRIX VIEW */}
-                <div className={`w-full h-full min-h-[250px] relative ${activeTab === 'matrix' ? 'block' : 'hidden'}`}>
+                {/* 01. NODE MATRIX */}
+                <div className={`w-full h-full relative ${activeTab === 'matrix' ? 'block' : 'hidden'}`}>
                   <NeuralSignature
                     onLogAdded={handleLogAdded}
                     onRadarUpdate={handleRadarUpdate}
@@ -197,48 +263,44 @@ export default function Hero() {
                   />
                 </div>
 
-                {/* LOG STREAM VIEW */}
-                <div className={`w-full h-full flex flex-col justify-between ${activeTab === 'logs' ? 'block' : 'hidden'}`}>
+                {/* 02. STREAM LOGS */}
+                <div className={`w-full h-full flex flex-col justify-between ${activeTab === 'logs' ? 'flex' : 'hidden'}`}>
                   <div
                     ref={logContainerRef}
-                    className="w-full flex-1 overflow-y-auto max-h-[220px] font-mono text-[13px] text-[#444] leading-relaxed p-2 scrollbar-thin"
+                    className="w-full flex-1 overflow-y-auto font-mono text-xs text-[#333] leading-relaxed p-2 scrollbar-thin space-y-1.5"
                   >
                     {terminalLogs.map((log, i) => (
-                      <div key={i} className="mb-1 border-l-2 border-rust/30 pl-2">
+                      <div key={i} className="border-l-2 border-rust/40 pl-2">
                         {log}
                       </div>
                     ))}
                     <span className="terminal-cursor text-rust font-bold">_</span>
                   </div>
-                  <div className="font-mono text-[8px] uppercase tracking-wider text-[#bbb] mt-2 select-none">
-                    Real-time compilation logs
+                  <div className="font-mono text-[9px] uppercase tracking-wider text-[#999] pt-2 border-t border-ink/10 select-none">
+                    Real-time pipeline diagnostics
                   </div>
                 </div>
 
-                {/* TECH RADAR VIEW */}
+                {/* 03. TECH RADAR */}
                 <div className={`w-full h-full flex flex-col items-center justify-center p-2 ${activeTab === 'radar' ? 'flex' : 'hidden'}`}>
-                  {/* Radar Telemetry Header */}
-                  <div className="w-full max-w-[280px] font-mono text-[9px] text-[#888] flex justify-between mb-2 select-none">
+                  <div className="w-full max-w-[280px] font-mono text-[9px] text-[#777] flex justify-between mb-2 select-none">
                     <span>SYS_SCANNER: ACTIVE</span>
                     <span>LOCK: {radarInfo ? radarInfo.target.toUpperCase() : 'STANDBY'}</span>
                   </div>
 
-                  <div className="relative w-[180px] h-[180px] sm:w-[220px] sm:h-[220px]">
+                  <div className="relative w-[180px] h-[180px] sm:w-[210px] sm:h-[210px]">
                     <svg className="w-full h-full" viewBox="0 0 400 400" fill="none">
-                      {/* Grid circles */}
-                      <circle cx="200" cy="200" r="180" stroke="#0D0D0D" strokeWidth="1" strokeDasharray="4 4" opacity="0.1" />
-                      <circle cx="200" cy="200" r="130" stroke="#0D0D0D" strokeWidth="1" strokeDasharray="4 4" opacity="0.15" />
+                      <circle cx="200" cy="200" r="180" stroke="#0D0D0D" strokeWidth="1" strokeDasharray="4 4" opacity="0.12" />
+                      <circle cx="200" cy="200" r="130" stroke="#0D0D0D" strokeWidth="1" strokeDasharray="4 4" opacity="0.18" />
                       <circle cx="200" cy="200" r="80" stroke="#0D0D0D" strokeWidth="1" opacity="0.25" />
                       <circle cx="200" cy="200" r="30" stroke="#0D0D0D" strokeWidth="1" opacity="0.35" />
 
-                      {/* Axis lines */}
                       <line x1="200" y1="10" x2="200" y2="390" stroke="#0D0D0D" strokeWidth="0.5" opacity="0.15" />
                       <line x1="10" y1="200" x2="390" y2="200" stroke="#0D0D0D" strokeWidth="0.5" opacity="0.15" />
 
-                      {/* Sweeper arm */}
                       <g className="radar-sweep-group" style={{ transformOrigin: '200px 200px' }}>
                         <line x1="200" y1="200" x2="200" y2="20" stroke="#E84B2A" strokeWidth="2.5" />
-                        <polygon points="200,200 200,20 160,30" fill="url(#sweep-gradient)" opacity="0.15" />
+                        <polygon points="200,200 200,20 160,30" fill="url(#sweep-gradient)" opacity="0.18" />
                       </g>
 
                       <defs>
@@ -248,10 +310,8 @@ export default function Hero() {
                         </linearGradient>
                       </defs>
 
-                      {/* Active target tracking pointer */}
                       {radarInfo && (
                         <>
-                          {/* Radial lock-on line from center to target */}
                           <line
                             x1="200"
                             y1="200"
@@ -260,10 +320,8 @@ export default function Hero() {
                             stroke="#CAFF00"
                             strokeWidth="1.2"
                             strokeDasharray="3 3"
-                            opacity="0.6"
+                            opacity="0.7"
                           />
-                          
-                          {/* Radar targeted dot */}
                           <circle
                             cx={radarInfo.xPct * 400}
                             cy={radarInfo.yPct * 400}
@@ -273,8 +331,6 @@ export default function Hero() {
                             strokeWidth="1.5"
                             className="radar-target"
                           />
-                          
-                          {/* Text HUD next to targeted dot */}
                           <text
                             x={radarInfo.xPct * 400}
                             y={radarInfo.yPct * 400 - 10}
@@ -288,8 +344,7 @@ export default function Hero() {
                     </svg>
                   </div>
 
-                  {/* Telemetry Footer Info */}
-                  <div className="w-full max-w-[280px] font-mono text-[8px] text-[#aaa] flex justify-between mt-2 select-none uppercase">
+                  <div className="w-full max-w-[280px] font-mono text-[8px] text-[#999] flex justify-between mt-2 select-none uppercase">
                     <span>BEARING: {radarInfo ? `${radarInfo.angle}°` : '0°'}</span>
                     <span>DIST: {radarInfo ? `${radarInfo.distance}m` : '0m'}</span>
                     <span>SIG: {radarInfo ? `${radarInfo.progress}%` : '0.00%'}</span>
@@ -301,66 +356,69 @@ export default function Hero() {
         </div>
       </section>
 
-      {/* ── FULL WIDTH MARQUEE ───────────────────────── */}
-      <div className="bg-ink text-acid overflow-hidden py-5 border-brutal-b">
-        <div className="marquee-track font-display font-extrabold text-2xl tracking-tight">
-          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map(
-            (item, i) => (
-              <span key={i} className="mr-12">
-                {item}{' '}
-                <span className="text-rust">
-                  ✦
-                </span>
-              </span>
-            )
-          )}
+      {/* ── FULL WIDTH MARQUEE ───────────────────────────────── */}
+      <div className="bg-ink text-[#CAFF00] overflow-hidden py-4 border-brutal-b select-none">
+        <div className="marquee-track font-display font-extrabold text-xl sm:text-2xl tracking-tight">
+          {[...MARQUEE_ITEMS, ...MARQUEE_ITEMS].map((item, i) => (
+            <span key={i} className="mr-10 flex items-center gap-3">
+              <span>{item}</span>
+              <span className="text-rust">✦</span>
+            </span>
+          ))}
         </div>
       </div>
 
-      {/* ── CURRENTLY BUILDING ───────────────────────── */}
-      <div className="bg-rust text-white flex flex-wrap items-center gap-3 px-6 sm:px-8 py-3 border-brutal-b font-mono text-body-sm">
-        <span
-          className="pulse-dot"
-          style={{ background: '#CAFF00' }}
-        />
-
-        <strong>Currently building:</strong>
-
-        AI-powered Resume Analyzer & Builder V2
-        — smarter parsing, role-fit scoring,
-        one-click tailoring
+      {/* ── CURRENTLY BUILDING TELEMETRY ─────────────────────── */}
+      <div className="bg-rust text-white flex flex-wrap items-center gap-3 px-6 sm:px-10 py-3 border-brutal-b font-mono text-xs sm:text-body-sm select-none">
+        <span className="pulse-dot" style={{ background: '#CAFF00' }} />
+        <strong className="uppercase tracking-wider">Active Build:</strong>
+        <span>
+          Brand Guardian AI v2 — Multimodal Video Compliance DAGs with Azure Video Indexer & LangGraph
+        </span>
       </div>
 
-      {/* ── STATS ───────────────────────────────────── */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 border-brutal-b">
+      {/* ── 4-COLUMN BALANCED STATS BAR ───────────────────────── */}
+      <div className="grid grid-cols-2 md:grid-cols-4 border-brutal-b bg-[#FAF7F2]">
         {[
           {
-            num: '6+',
-            label: 'Projects shipped',
+            num: '07+',
+            label: 'Projects Shipped',
+            sub: 'AI, Mobile & Desktop',
           },
           {
-            num: '4+',
-            label: 'AI models integrated',
+            num: 'Top 8%',
+            label: 'Ranked Intern',
+            sub: 'DevTown Batch of 250',
           },
           {
-            num: '∞',
-            label: 'Things to experiment',
+            num: 'Verified',
+            label: 'XERJ Contributor',
+            sub: 'AI Corpus Hub',
           },
-        ].map(({ num, label }) => (
+          {
+            num: '22 yrs',
+            label: 'Pune, India',
+            sub: 'B.Tech IT Graduate',
+          },
+        ].map(({ num, label, sub }, idx) => (
           <div
             key={label}
-            className="py-6 px-8 border-brutal-r last:border-r-0 text-center lg:text-left"
+            className={`py-5 px-6 sm:px-8 border-brutal-b md:border-b-0 ${
+              idx !== 3 ? 'md:border-brutal-r' : ''
+            } ${idx % 2 === 0 ? 'border-r-2 border-ink md:border-r-2' : ''}`}
           >
-            <div className="font-display font-extrabold text-display-md text-ink leading-none mb-1">
+            <div className="font-display font-extrabold text-2xl sm:text-3xl text-ink leading-none mb-1">
               {num}
             </div>
-
-            <div className="font-mono text-label uppercase tracking-widest text-[#888]">
+            <div className="font-mono text-[10px] uppercase tracking-wider text-ink font-bold">
               {label}
+            </div>
+            <div className="font-mono text-[9px] text-[#888] mt-0.5">
+              {sub}
             </div>
           </div>
         ))}
       </div>
     </>
-  )
+  );
 }

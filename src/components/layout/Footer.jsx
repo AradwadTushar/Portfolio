@@ -1,11 +1,12 @@
 /**
  * Footer — minimal brutalist bar
  * Ink background, acid text, 2px top border
+ * 100% Edge-to-edge
  */
 export default function Footer() {
   return (
-    <footer className="bg-ink text-cream border-brutal-t mb-16 md:mb-0">
-      <div className="max-w-container mx-auto px-8 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
+    <footer className="w-full bg-ink text-cream border-brutal-t mb-16 md:mb-0">
+      <div className="w-full px-6 sm:px-10 lg:px-16 2xl:px-24 py-6 flex flex-col md:flex-row items-center justify-between gap-4">
 
         <span className="font-display font-extrabold text-lg tracking-tight">TA_</span>
 

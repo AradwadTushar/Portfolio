@@ -17,16 +17,16 @@ export default function Contact() {
     <section id="contact" className="border-brutal-b">
 
       {/* Section label */}
-      <div className="px-8 py-4 border-brutal-b">
+      <div className="px-6 sm:px-10 lg:px-16 2xl:px-24 py-4 border-brutal-b">
         <span className="font-mono text-label uppercase tracking-widest text-[#888]">
-          03 — Contact
+          04 — Contact
         </span>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2">
 
         {/* Left — headline + CTA */}
-        <div className="bg-ink text-cream p-8 lg:p-12 flex flex-col justify-between gap-10 border-brutal-b lg:border-brutal-b-0 lg:border-brutal-r border-[#333]">
+        <div className="bg-ink text-cream p-8 sm:p-12 lg:p-16 2xl:p-24 flex flex-col justify-between gap-10 border-brutal-b lg:border-brutal-b-0 lg:border-brutal-r border-[#333]">
           <div>
             <h2 className="font-display font-extrabold text-display-lg leading-tight mb-6">
               Got an idea?<br />
@@ -47,7 +47,7 @@ export default function Contact() {
         </div>
 
         {/* Right — social links + availability */}
-        <div className="p-8 lg:p-12 flex flex-col justify-between gap-10">
+        <div className="p-8 sm:p-12 lg:p-16 2xl:p-24 flex flex-col justify-between gap-10">
 
           {/* Availability blurb */}
           <div className="flex items-start gap-3">
